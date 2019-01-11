@@ -53,10 +53,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
+            android:hint="Size"
+            android:inputType="textCapWords"
+            app:layout_constraintTop_toBottomOf="@id/edThongTinSP"
+            android:id="@+id/edSize"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <EditText
             android:inputType="numberDecimal"
             android:id="@+id/edGiaNhapSP"
             android:hint="Gia nhap"
-            app:layout_constraintTop_toBottomOf="@id/edThongTinSP"
+            app:layout_constraintTop_toBottomOf="@id/edSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText

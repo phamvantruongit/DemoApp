@@ -28,9 +28,16 @@
             android:layout_height="25dp" />
     </RelativeLayout>
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="10dp"
         android:id="@+id/rv_loaisp"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_loaisp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -40,7 +47,7 @@
         android:padding="50dp"
         android:textSize="17sp"
         android:textStyle="bold|italic"
-        app:layout_constraintTop_toBottomOf="@id/rv_loaisp"
+        app:layout_constraintTop_toBottomOf="@id/rv_sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

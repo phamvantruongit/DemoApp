@@ -34,6 +34,8 @@ public class Database extends SQLiteOpenHelper {
 
     private static final String KEY_PRICE_OUT = "price_out";
 
+    private static final String KEY_SIZE="size";
+
 
     private static final String CREATE_TABLE_TYPE_PRODUCT = "CREATE TABLE "
             + TABLE_TYPE_PRODUCT + "(" + KEY_ID
@@ -42,7 +44,7 @@ public class Database extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_PRODUCT = "CREATE TABLE "
 
             + TABLE_PRODUCT + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , "
-            + KEY_NAME + " TEXT , " + KEY_INFO + " TEXT , "
+            + KEY_NAME + " TEXT , " + KEY_INFO + " TEXT , " + KEY_SIZE + "  TEXT ,"
             + KEY_NUMBER + " INTEGER ," + KEY_PRICE_IN + " TEXT ,"
             + KEY_PRICE_OUT + " TEXT," + KEY_TYPE_ID + " INTEGER );";
 
@@ -71,6 +73,7 @@ public class Database extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, sanPham.getName());
         values.put(KEY_INFO, sanPham.getThongin());
+        values.put(KEY_SIZE,sanPham.getSize());
         values.put(KEY_NUMBER, sanPham.getSoluong());
         values.put(KEY_PRICE_IN, sanPham.getGianhap());
         values.put(KEY_PRICE_OUT, sanPham.getGiaban());
@@ -87,13 +90,24 @@ public class Database extends SQLiteOpenHelper {
             sanPham.setId(cursor.getInt(0));
             sanPham.setName(cursor.getString(1));
             sanPham.setThongin(cursor.getString(2));
-            sanPham.setSoluong(cursor.getInt(3));
-            sanPham.setGianhap(Double.parseDouble(cursor.getString(4)));
-            sanPham.setGiaban(Double.parseDouble(cursor.getString(5)));
+            sanPham.setSize(cursor.getString(3));
+            sanPham.setSoluong(cursor.getInt(4));
+            sanPham.setGianhap(Double.parseDouble(cursor.getString(5)));
+            sanPham.setGiaban(Double.parseDouble(cursor.getString(6)));
             list.add(sanPham);
         }
         return list;
 
+    }
+
+    public  int getID(){
+        SQLiteDatabase db=this.getWritableDatabase();
+        int id=0;
+        Cursor cursor=db.rawQuery("SELECT * FROM " + TABLE_PRODUCT + " order by id desc limit 1 ",null);
+        while (cursor.moveToNext()){
+            id=cursor.getInt(0);
+        }
+        return id;
     }
 
     public void AddLoaiSanPham(String name) {

@@ -2,8 +2,20 @@ package vn.com.it.truongpham.demoapp.model;
 
 public class SanPham {
     private int id ,id_loaisp,soluong;
-    private String name,thongin;
+    private String name;
+    private String thongin;
+    private String size;
     private double gianhap,giaban;
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+
 
     public void setId(int id) {
         this.id = id;

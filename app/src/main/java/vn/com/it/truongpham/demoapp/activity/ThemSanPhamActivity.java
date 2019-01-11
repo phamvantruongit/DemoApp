@@ -46,7 +46,7 @@ import vn.com.it.truongpham.demoapp.model.SanPham;
 import vn.com.it.truongpham.demoapp.model.data.Database;
 
 public class ThemSanPhamActivity extends AppCompatActivity {
-    EditText edTenSP, edThongTinSP, edGiaNhap, edGiaBan, edSL;
+    EditText edTenSP, edThongTinSP, edGiaNhap, edGiaBan, edSL, edSize;
     Spinner spLoaiSanPham;
     ImageView img_qrcode;
     TextView tvDongY, tvHuy;
@@ -54,6 +54,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
     Database database;
     AdapterSpinnerLoaiSP adapterSpinnerLoaiSP;
     List<LoaiSP> loaiSPList;
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +64,13 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
         init();
 
-        loaiSPList=database.getListLoaiSP();
-        adapterSpinnerLoaiSP=new AdapterSpinnerLoaiSP(this,loaiSPList);
+        loaiSPList = database.getListLoaiSP();
+        adapterSpinnerLoaiSP = new AdapterSpinnerLoaiSP(this, loaiSPList);
         spLoaiSanPham.setAdapter(adapterSpinnerLoaiSP);
     }
 
     private void init() {
+        edSize = findViewById(R.id.edSize);
         edTenSP = findViewById(R.id.edTenSP);
         edThongTinSP = findViewById(R.id.edThongTinSP);
         edGiaBan = findViewById(R.id.edGiaBanSP);
@@ -88,6 +90,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                 String giaban = edGiaBan.getText().toString();
                 String gianhap = edGiaNhap.getText().toString();
                 String soluong = edSL.getText().toString();
+                String size = edSize.getText().toString().trim();
 
                 if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(gianhap) && !TextUtils.isEmpty(giaban) && !TextUtils.isEmpty(soluong)) {
                     SanPham sanPham = new SanPham();
@@ -102,10 +105,12 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                     sanPham.setGianhap(Double.parseDouble(gianhap));
                     sanPham.setGiaban(Double.parseDouble(giaban));
                     sanPham.setSoluong(Integer.parseInt(soluong));
+                    sanPham.setSize(size);
+                    database.AddSanPham(sanPham);
                     if (ck_tao_qrcode.isChecked()) {
                         createQRcode(name, giaban, soluong);
                     }
-                    database.AddSanPham(sanPham);
+
                 } else {
                     Toast.makeText(ThemSanPhamActivity.this, "Nhap day thong tin", Toast.LENGTH_SHORT).show();
                 }
@@ -115,12 +120,14 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
     private void createQRcode(String name, String giaban, String soluong) {
         try {
+
             String json = new JSONObject()
                     .put("name", name)
                     .put("price_out", giaban)
-                    .put("number",1)
-                    .put("id",1)
+                    .put("number", 1)
+                    .put("id", database.getID())
                     .toString();
+            Log.d("JSON", json);
 
             QRCodeWriter writer = new QRCodeWriter();
             try {
@@ -136,7 +143,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
                 img_qrcode.setImageBitmap(bmp);
 
-                saveImage(bmp,name);
+                saveImage(bmp, name);
 
 
             } catch (WriterException e) {
@@ -148,12 +155,12 @@ public class ThemSanPhamActivity extends AppCompatActivity {
         }
     }
 
-    private void saveImage(Bitmap bitmap, String file_name){
+    private void saveImage(Bitmap bitmap, String file_name) {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/Image_QrCode");
         myDir.mkdirs();
 
-        File file = new File(myDir, file_name+".jpg");
+        File file = new File(myDir, file_name + ".jpg");
 
         if (file.exists())
             file.delete();
@@ -167,8 +174,5 @@ public class ThemSanPhamActivity extends AppCompatActivity {
         }
 
     }
-
-
-
 
 }
