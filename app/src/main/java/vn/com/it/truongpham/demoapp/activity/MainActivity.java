@@ -1,20 +1,27 @@
-package vn.com.it.truongpham.demoapp;
+package vn.com.it.truongpham.demoapp.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import vn.com.it.truongpham.demoapp.R;
+import vn.com.it.truongpham.demoapp.adapter.AdapterTop;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    RecyclerView rv_top;
+    AdapterTop adapterTop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +30,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -40,8 +39,29 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        init();
     }
+    private void init() {
+        rv_top=findViewById(R.id.rv_top);
+        List<String> list=new ArrayList<>();
 
+        list.add("Loai san pham");
+        list.add("Them  san pham");
+        list.add("Danh muc san pham");
+        list.add("Ban hang");
+        list.add("Thu chi");
+        list.add("Kho");
+        list.add("Thong ke");
+        list.add("Them nhan vien");
+
+
+        adapterTop=new AdapterTop(this,list);
+        RecyclerView.LayoutManager layoutManager=new GridLayoutManager(this,2);
+        rv_top.setLayoutManager(layoutManager);
+        rv_top.setAdapter(adapterTop);
+
+
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
