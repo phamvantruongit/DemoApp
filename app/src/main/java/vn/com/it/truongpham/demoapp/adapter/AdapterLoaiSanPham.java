@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -30,8 +31,14 @@ public class AdapterLoaiSanPham  extends RecyclerView.Adapter<AdapterLoaiSanPham
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.tv_loaisp.setText(listLoaiSP.get(i).getName());
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
+        viewHolder.tv_loaisp.setText(listLoaiSP.get(position).getName());
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "ID:" +listLoaiSP.get(position).getId(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
