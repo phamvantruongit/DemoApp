@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="vn.com.it.truongpham.demoapp">
+    package="vn.com.it.truongpham.mystore">
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name="vn.com.it.truongpham.mystore.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -19,9 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoaiSanPhamActivity" />
-        <activity android:name=".activity.SanPhamActivity" />
-        <activity android:name=".activity.ThemSanPhamActivity"></activity>
+        <activity android:name="vn.com.it.truongpham.mystore.activity.LoaiSanPhamActivity" />
+        <activity android:name="vn.com.it.truongpham.mystore.activity.SanPhamActivity" />
+        <activity android:name="vn.com.it.truongpham.mystore.activity.ThemSanPhamActivity"></activity>
     </application>
 
 </manifest>

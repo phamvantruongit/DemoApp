@@ -1,4 +1,4 @@
-package vn.com.it.truongpham.demoapp.model;
+package vn.com.it.truongpham.mystore.model;
 
 public class LoaiSP {
     private int id;

@@ -1,4 +1,4 @@
-package vn.com.it.truongpham.demoapp.adapter;
+package vn.com.it.truongpham.mystore.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import vn.com.it.truongpham.demoapp.R;
-import vn.com.it.truongpham.demoapp.model.LoaiSP;
+import vn.com.it.truongpham.mystore.R;
+import vn.com.it.truongpham.mystore.model.LoaiSP;
 
 public class AdapterSpinnerLoaiSP extends BaseAdapter{
     Context context;

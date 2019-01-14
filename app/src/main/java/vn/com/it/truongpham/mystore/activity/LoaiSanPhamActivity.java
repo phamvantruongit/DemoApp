@@ -1,4 +1,4 @@
-package vn.com.it.truongpham.demoapp.activity;
+package vn.com.it.truongpham.mystore.activity;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -14,10 +14,10 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import vn.com.it.truongpham.demoapp.R;
-import vn.com.it.truongpham.demoapp.adapter.AdapterLoaiSP;
-import vn.com.it.truongpham.demoapp.model.LoaiSP;
-import vn.com.it.truongpham.demoapp.model.data.Database;
+import vn.com.it.truongpham.mystore.R;
+import vn.com.it.truongpham.mystore.adapter.AdapterLoaiSP;
+import vn.com.it.truongpham.mystore.model.LoaiSP;
+import vn.com.it.truongpham.mystore.model.data.Database;
 
 
 public class LoaiSanPhamActivity extends AppCompatActivity {

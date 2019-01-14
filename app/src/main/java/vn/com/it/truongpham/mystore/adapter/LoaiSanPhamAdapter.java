@@ -1,4 +1,4 @@
-package vn.com.it.truongpham.demoapp.adapter;
+package vn.com.it.truongpham.mystore.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

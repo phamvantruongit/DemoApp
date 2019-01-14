@@ -1,4 +1,4 @@
-package vn.com.it.truongpham.demoapp.model.data;
+package vn.com.it.truongpham.mystore.model.data;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,8 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-import vn.com.it.truongpham.demoapp.model.LoaiSP;
-import vn.com.it.truongpham.demoapp.model.SanPham;
+import vn.com.it.truongpham.mystore.model.LoaiSP;
+import vn.com.it.truongpham.mystore.model.SanPham;
 
 public class Database extends SQLiteOpenHelper {
     public static String DATABASE_NAME = "database";

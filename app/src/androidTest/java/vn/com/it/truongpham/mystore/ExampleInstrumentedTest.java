@@ -1,4 +1,4 @@
-package vn.com.it.truongpham.demoapp;
+package vn.com.it.truongpham.mystore;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

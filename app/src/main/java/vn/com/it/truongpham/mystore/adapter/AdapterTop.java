@@ -1,4 +1,4 @@
-package vn.com.it.truongpham.demoapp.adapter;
+package vn.com.it.truongpham.mystore.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,17 +11,17 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import vn.com.it.truongpham.demoapp.activity.LoaiSanPhamActivity;
-import vn.com.it.truongpham.demoapp.R;
-import vn.com.it.truongpham.demoapp.activity.SanPhamActivity;
+import vn.com.it.truongpham.mystore.activity.LoaiSanPhamActivity;
+import vn.com.it.truongpham.mystore.R;
+import vn.com.it.truongpham.mystore.activity.SanPhamActivity;
 
 public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
     Context context;
-    List<String> list;
+    String arr[];
 
-    public AdapterTop(Context context, List<String> list) {
+    public AdapterTop(Context context, String arr[]) {
         this.context = context;
-        this.list = list;
+        this.arr=arr;
     }
 
     @NonNull
@@ -33,7 +33,7 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
-        viewHolder.tv_top.setText(list.get(i));
+        viewHolder.tv_top.setText(arr[i]);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +54,7 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return arr.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -1,4 +1,4 @@
-package vn.com.it.truongpham.demoapp.model;
+package vn.com.it.truongpham.mystore.model;
 
 public class SanPham {
     private int id ,id_loaisp,soluong;

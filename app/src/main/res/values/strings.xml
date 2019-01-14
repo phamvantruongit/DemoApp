@@ -1,9 +1,20 @@
 <resources>
-    <string name="app_name">DemoApp</string>
+    <string name="app_name">My Store</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <array name="arr">
+        <item>Loai san pham</item>
+        <item>Them san pham</item>
+        <item>Danh muc san pham</item>
+        <item>Ban hang</item>
+        <item>Thu chi</item>
+        <item>Kho</item>
+        <item>Thong ke</item>
+        <item>Them nhan vien</item>
+    </array>
 </resources>

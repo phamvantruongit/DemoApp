@@ -1,4 +1,4 @@
-package vn.com.it.truongpham.demoapp.adapter;
+package vn.com.it.truongpham.mystore.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,17 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
-import vn.com.it.truongpham.demoapp.R;
-import vn.com.it.truongpham.demoapp.model.LoaiSP;
+import vn.com.it.truongpham.mystore.R;
+import vn.com.it.truongpham.mystore.model.LoaiSP;
 
-public class AdapterLoaiSP extends RecyclerView.Adapter<AdapterLoaiSP.ViewHolder> {
+public class AdapterLoaiSanPham  extends RecyclerView.Adapter<AdapterLoaiSanPham.ViewHolder> {
     Context context;
     List<LoaiSP> listLoaiSP;
 
-    public AdapterLoaiSP(Context context, List<LoaiSP> listLoaiSP) {
+    public AdapterLoaiSanPham(Context context, List<LoaiSP> listLoaiSP) {
         this.context = context;
         this.listLoaiSP = listLoaiSP;
     }
@@ -25,13 +26,19 @@ public class AdapterLoaiSP extends RecyclerView.Adapter<AdapterLoaiSP.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view=LayoutInflater.from(context).inflate(R.layout.item_loaisp,viewGroup,false);
+        View view=LayoutInflater.from(context).inflate(R.layout.item_loaisanpham,viewGroup,false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-       viewHolder.tv_loaisp.setText(listLoaiSP.get(i).getName());
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
+        viewHolder.tv_loaisp.setText(listLoaiSP.get(position).getName());
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "ID:" +listLoaiSP.get(position).getId(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -46,4 +53,5 @@ public class AdapterLoaiSP extends RecyclerView.Adapter<AdapterLoaiSP.ViewHolder
             tv_loaisp=itemView.findViewById(R.id.tv_loaisp);
         }
     }
+
 }
