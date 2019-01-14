@@ -1,12 +1,42 @@
 package vn.com.it.truongpham.mystore.model;
 
-public class SanPham {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class SanPham  implements Parcelable {
     private int id ,id_loaisp,soluong;
     private String name;
     private String thongin;
     private String size;
     private double gianhap,giaban;
     private String ngaynhap;
+
+    public SanPham() {
+    }
+
+    protected SanPham(Parcel in) {
+        id = in.readInt();
+        id_loaisp = in.readInt();
+        soluong = in.readInt();
+        name = in.readString();
+        thongin = in.readString();
+        size = in.readString();
+        gianhap = in.readDouble();
+        giaban = in.readDouble();
+        ngaynhap = in.readString();
+    }
+
+    public static final Creator<SanPham> CREATOR = new Creator<SanPham>() {
+        @Override
+        public SanPham createFromParcel(Parcel in) {
+            return new SanPham(in);
+        }
+
+        @Override
+        public SanPham[] newArray(int size) {
+            return new SanPham[size];
+        }
+    };
 
     public String getNgaynhap() {
         return ngaynhap;
@@ -80,5 +110,23 @@ public class SanPham {
 
     public double getGiaban() {
         return giaban;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeInt(id_loaisp);
+        dest.writeInt(soluong);
+        dest.writeString(name);
+        dest.writeString(thongin);
+        dest.writeString(size);
+        dest.writeDouble(gianhap);
+        dest.writeDouble(giaban);
+        dest.writeString(ngaynhap);
     }
 }

@@ -12,14 +12,19 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import vn.com.it.truongpham.mystore.R;
+import vn.com.it.truongpham.mystore.model.SanPham;
 
 public class BanHangQRCodeActivity extends AppCompatActivity {
-
+   List<SanPham> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banhang_qrcode);
+        list=new ArrayList<>();
     }
 
     public void OpenActivity(View view) {
@@ -31,25 +36,12 @@ public class BanHangQRCodeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==100&&resultCode==Activity.RESULT_OK&&data!=null){
-            Bundle bundle=data.getExtras();
-            String qrcode=bundle.getString("qrcode_data");
-            Log.d("data",qrcode);
-            try {
-
-                JSONObject object = new JSONObject(qrcode);
-                String tensp = object.getString("tensp");
-                String soluong = String.valueOf(object.getInt("soluong"));
-                String dongia = String.valueOf(object.getInt("gia"));
-                String size=object.getString("size");
-                String id= String.valueOf(object.getInt("id"));
-
-
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Toast.makeText(BanHangQRCodeActivity.this, "Mã QR Code không đúng ", Toast.LENGTH_SHORT).show();
-
+            Bundle bundle = getIntent().getExtras();
+            list = bundle.getParcelableArrayList("data");
+            for(SanPham sanPham:list){
+                Log.d("data",sanPham.getName());
             }
+
         }
     }
 }
