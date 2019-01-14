@@ -6,6 +6,15 @@ public class SanPham {
     private String thongin;
     private String size;
     private double gianhap,giaban;
+    private String ngaynhap;
+
+    public String getNgaynhap() {
+        return ngaynhap;
+    }
+
+    public void setNgaynhap(String ngaynhap) {
+        this.ngaynhap = ngaynhap;
+    }
 
     public String getSize() {
         return size;

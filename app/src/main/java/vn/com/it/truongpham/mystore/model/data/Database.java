@@ -5,9 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.view.View;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import vn.com.it.truongpham.mystore.model.LoaiSP;
 import vn.com.it.truongpham.mystore.model.SanPham;
@@ -36,6 +40,8 @@ public class Database extends SQLiteOpenHelper {
 
     private static final String KEY_SIZE="size";
 
+    private static final String KEY_DATE="date";
+
 
     private static final String CREATE_TABLE_TYPE_PRODUCT = "CREATE TABLE "
             + TABLE_TYPE_PRODUCT + "(" + KEY_ID
@@ -46,7 +52,7 @@ public class Database extends SQLiteOpenHelper {
             + TABLE_PRODUCT + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , "
             + KEY_NAME + " TEXT , " + KEY_INFO + " TEXT , " + KEY_SIZE + "  TEXT ,"
             + KEY_NUMBER + " INTEGER ," + KEY_PRICE_IN + " TEXT ,"
-            + KEY_PRICE_OUT + " TEXT," + KEY_TYPE_ID + " INTEGER );";
+            + KEY_PRICE_OUT + " TEXT," + KEY_TYPE_ID + " INTEGER , " + KEY_DATE + " TEXT );";
 
 
     public Database(Context context) {
@@ -77,6 +83,13 @@ public class Database extends SQLiteOpenHelper {
         values.put(KEY_NUMBER, sanPham.getSoluong());
         values.put(KEY_PRICE_IN, sanPham.getGianhap());
         values.put(KEY_PRICE_OUT, sanPham.getGiaban());
+
+        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+        Date nowtime=new Date();
+        String strnowtime = sdf.format(nowtime);
+
+        values.put(KEY_DATE,strnowtime);
+
         db.insert(TABLE_PRODUCT,null,values);
         db.close();
     }
@@ -129,6 +142,12 @@ public class Database extends SQLiteOpenHelper {
             list.add(loaiSP);
         }
         return list;
+    }
+
+    public void update(int id){
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor cursor=db.rawQuery("update tb_product set number=number-1 where id = "+ id,null);
+        cursor.moveToNext();
     }
 
 

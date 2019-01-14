@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import vn.com.it.truongpham.mystore.activity.ActivityQRCodeScanner;
+import vn.com.it.truongpham.mystore.activity.BanHangQRCodeActivity;
 import vn.com.it.truongpham.mystore.activity.LoaiSanPhamActivity;
 import vn.com.it.truongpham.mystore.R;
 import vn.com.it.truongpham.mystore.activity.SanPhamActivity;
@@ -44,6 +46,9 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
                         break;
                     case 1 :
                         intent=new Intent(context,SanPhamActivity.class);
+                        break;
+                    case 3 :
+                        intent=new Intent(context,BanHangQRCodeActivity.class);
                         break;
                 }
 

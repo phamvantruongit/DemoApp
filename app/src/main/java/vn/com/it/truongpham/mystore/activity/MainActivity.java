@@ -29,12 +29,14 @@ import com.google.firebase.database.ValueEventListener;
 import vn.com.it.truongpham.mystore.BuildConfig;
 import vn.com.it.truongpham.mystore.R;
 import vn.com.it.truongpham.mystore.adapter.AdapterTop;
+import vn.com.it.truongpham.mystore.model.data.Database;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     RecyclerView rv_top;
     AdapterTop adapterTop;
     private   String version_name;
+    Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         init();
+        database=new Database(this);
+        for(int i=1;i<4;i++){
+            database.update(i);
+        }
+
     }
     private void init() {
         rv_top=findViewById(R.id.rv_top);
@@ -162,7 +169,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intent=new Intent(MainActivity.this,QRCodeScannerActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
