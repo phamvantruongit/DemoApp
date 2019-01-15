@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <EditText
+        android:visibility="gone"
+        android:padding="10dp"
+        android:background="@drawable/boder_item_top"
+        android:hint="Ten KH"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:visibility="gone"
+        android:padding="10dp"
+        android:background="@drawable/boder_item_top"
+        android:hint="Dien Thoai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:visibility="gone"
+        android:padding="10dp"
+        android:background="@drawable/boder_item_top"
+        android:hint="Dia chi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

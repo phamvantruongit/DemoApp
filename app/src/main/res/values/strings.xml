@@ -17,4 +17,14 @@
         <item>Kho</item>
         <item>Thong ke</item>
     </array>
+
+    <array name="arr_title">
+        <item>Ma san pham</item>
+        <item>Ten san pham</item>
+        <item>So luong</item>
+        <item>Don gia</item>
+        <item>Chiet khau</item>
+        <item>Thanh tien</item>
+    </array>
+
 </resources>

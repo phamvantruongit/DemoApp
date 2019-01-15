@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,7 +31,10 @@ import vn.com.it.truongpham.mystore.model.SanPham;
 
 public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.ResultHandler {
     private ZXingScannerView mScannerView;
-
+    public static List<SanPham> list=new ArrayList<>();;
+    public static List<SanPham> getListSanPham(){
+        return list;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,12 +58,12 @@ public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.
     @Override
     public void handleResult(Result result) {
 
-
         final Dialog dialog = new Dialog(ActivityQRCodeScanner.this);
         try {
             JSONObject object = new JSONObject(result.getText());
             Log.d("object", object.toString());
-            String name = object.getString("tensp");
+            //{"tensp":"ao" ,"gia":100,"soluong":1,"size":"29","id":1}
+            String tensp = object.getString("tensp");
             String soluong = String.valueOf(object.getInt("soluong"));
             String dongia = String.valueOf(object.getInt("gia"));
             int id = object.getInt("id");
@@ -75,14 +79,16 @@ public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.
             TextView tv_size = dialog.findViewById(R.id.tv_size);
             SanPham sanPham = new SanPham();
 
-            tv_sanpham.setText("Tên sản phẩm: " + name);
+            tv_sanpham.setText("Tên sản phẩm: " + tensp);
             tv_dongia.setText("Đơn giá : " + dongia);
             tv_sl.setText("Số lượng : " + soluong);
 
-            sanPham.setName(name);
+
+
+            sanPham.setName(tensp);
             sanPham.setGiaban(Double.parseDouble(dongia));
             sanPham.setSoluong(Integer.parseInt(soluong));
-            sanPham.setId_loaisp(id);
+            sanPham.setId(id);
 
             String size = object.getString("size");
 
@@ -91,8 +97,8 @@ public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.
                 tv_size.setText("Size : " + object.getString("size"));
                 sanPham.setSize(size);
             }
-            final List<SanPham> list = new ArrayList<>();
             list.add(sanPham);
+
 
             dialog.findViewById(R.id.tv_qrcode).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,9 +113,6 @@ public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList("data", (ArrayList<? extends Parcelable>) list);
-                    intent.putExtras(bundle);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -117,6 +120,7 @@ public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.
 
         } catch (JSONException e) {
             e.printStackTrace();
+            mScannerView.resumeCameraPreview(ActivityQRCodeScanner.this);
             Toast.makeText(ActivityQRCodeScanner.this, "Mã QR Code không đúng ", Toast.LENGTH_SHORT).show();
         }
     }

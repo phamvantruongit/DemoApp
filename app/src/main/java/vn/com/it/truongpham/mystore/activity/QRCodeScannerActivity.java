@@ -53,9 +53,9 @@ public class QRCodeScannerActivity extends Activity implements ZXingScannerView.
         try {
             JSONObject object = new JSONObject(result.getText());
             Log.d("object", object.toString());
-            String name = object.getString("name");
+            String tensp = object.getString("tensp");
             String soluong = String.valueOf(object.getInt("soluong"));
-            String dongia = String.valueOf(object.getInt("dongia"));
+            String dongia = String.valueOf(object.getInt("gia"));
             int id = object.getInt("id");
 
             dialog.setCancelable(false);
@@ -68,7 +68,7 @@ public class QRCodeScannerActivity extends Activity implements ZXingScannerView.
             TextView tv_dongia = dialog.findViewById(R.id.tv_gia);
             TextView tv_size = dialog.findViewById(R.id.tv_size);
 
-            tv_sanpham.setText("Tên sản phẩm: " + name);
+            tv_sanpham.setText("Tên sản phẩm: " + tensp);
             tv_dongia.setText("Đơn giá : " + dongia );
             tv_sl.setText("Số lượng : " + soluong );
 
