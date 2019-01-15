@@ -1,13 +1,17 @@
 package vn.com.it.truongpham.mystore.activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     RecyclerView rv_top;
     AdapterTop adapterTop;
-    private   String version_name;
+    private String version_name;
     Database database;
 
     @Override
@@ -44,7 +50,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -56,24 +61,26 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         init();
-        database=new Database(this);
-        for(int i=1;i<4;i++){
+        database = new Database(this);
+        for (int i = 1; i < 4; i++) {
             database.update(i);
         }
 
     }
+
     private void init() {
-        rv_top=findViewById(R.id.rv_top);
-        String arr[] =getResources().getStringArray(R.array.arr);
+        rv_top = findViewById(R.id.rv_top);
+        String arr[] = getResources().getStringArray(R.array.arr);
 
 
-        adapterTop=new AdapterTop(this,arr);
-        RecyclerView.LayoutManager layoutManager=new GridLayoutManager(this,2);
+        adapterTop = new AdapterTop(this, arr);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         rv_top.setLayoutManager(layoutManager);
         rv_top.setAdapter(adapterTop);
 
 
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -101,7 +108,7 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        DatabaseReference myRef= FirebaseDatabase.getInstance().getReference().child("SaveVersionApp");
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("SaveVersionApp");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(final DataSnapshot dataSnapshot) {
@@ -109,22 +116,22 @@ public class MainActivity extends AppCompatActivity
 
                 if (!version_name.equals(version_update)) {
 
-                    final Dialog dialog=new Dialog(MainActivity.this);
+                    final Dialog dialog = new Dialog(MainActivity.this);
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     dialog.setContentView(R.layout.popup_update_app);
                     dialog.show();
                     dialog.setCancelable(false);
-                    TextView tvYes=dialog.findViewById(R.id.tvYes);
-                    TextView tvNo=dialog.findViewById(R.id.tvNo);
+                    TextView tvYes = dialog.findViewById(R.id.tvYes);
+                    TextView tvNo = dialog.findViewById(R.id.tvNo);
                     tvYes.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = null;
                             try {
                                 PackageManager pm = getPackageManager();
-                                ApplicationInfo appInfo = pm.getApplicationInfo(BuildConfig.APPLICATION_ID,PackageManager.GET_META_DATA);
+                                ApplicationInfo appInfo = pm.getApplicationInfo(BuildConfig.APPLICATION_ID, PackageManager.GET_META_DATA);
                                 intent = pm.getLaunchIntentForPackage(BuildConfig.APPLICATION_ID);
-                            }catch(PackageManager.NameNotFoundException e) {
+                            } catch (PackageManager.NameNotFoundException e) {
                                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID));
                             }
                             startActivity(intent);
@@ -169,11 +176,41 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent=new Intent(MainActivity.this,QRCodeScannerActivity.class);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+                int checkCallPhonePermission2 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                int checkCallPhonePermission3 = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
+                if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED && checkCallPhonePermission2 != PackageManager.PERMISSION_GRANTED && checkCallPhonePermission3 != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 100);
+                    return false;
+                } else {
+                    Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
+                    startActivity(intent);
+                }
+
+            }
+            Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
             startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(MainActivity.this, QRCodeScannerActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

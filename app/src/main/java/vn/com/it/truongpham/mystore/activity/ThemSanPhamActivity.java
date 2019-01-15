@@ -96,7 +96,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                     sanPham.setSize(size);
                     database.AddSanPham(sanPham);
                     if (ck_tao_qrcode.isChecked()) {
-                        createQRcode(name, giaban, soluong);
+                        createQRcode(name, giaban, soluong,size);
                     }
 
                 } else {
@@ -106,14 +106,15 @@ public class ThemSanPhamActivity extends AppCompatActivity {
         });
     }
 
-    private void createQRcode(String name, String giaban, String soluong) {
+    private void createQRcode(String name, String giaban, String soluong, String size) {
         try {
 
             String json = new JSONObject()
-                    .put("name", name)
-                    .put("price_out", giaban)
-                    .put("number", 1)
+                    .put("tensp", name)
+                    .put("gia", giaban)
+                    .put("soluong", soluong)
                     .put("id", database.getID())
+                    .put("size",size)
                     .toString();
             Log.d("JSON", json);
 

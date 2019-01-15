@@ -1,9 +1,13 @@
 package vn.com.it.truongpham.mystore.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,13 +38,13 @@ public class BanHangQRCodeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banhang_qrcode);
-        list=new ArrayList<>();
-        rv_top=findViewById(R.id.rv_title);
-        String arr[]=getResources().getStringArray(R.array.arr_title);
-        HeaderAdapter headerViewListAdapter=new HeaderAdapter(arr);
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        rv_top.setLayoutManager(layoutManager);
-        rv_top.setAdapter(headerViewListAdapter);
+//        list=new ArrayList<>();
+//        rv_top=findViewById(R.id.rv_title);
+//        String arr[]=getResources().getStringArray(R.array.arr_title);
+//        HeaderAdapter headerViewListAdapter=new HeaderAdapter(arr);
+//        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
+//        rv_top.setLayoutManager(layoutManager);
+//        rv_top.setAdapter(headerViewListAdapter);
     }
 
 
@@ -57,8 +61,38 @@ public class BanHangQRCodeActivity extends AppCompatActivity {
     }
 
     public void OpenQRCode(View view) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+            int checkCallPhonePermission2 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            int checkCallPhonePermission3 = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+
+            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED && checkCallPhonePermission2 != PackageManager.PERMISSION_GRANTED && checkCallPhonePermission3 != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA},100);
+                return;
+            } else {
+                Intent intent=new Intent(this,ActivityQRCodeScanner.class);
+                startActivityForResult(intent,100);
+            }
+
+        }
         Intent intent=new Intent(this,ActivityQRCodeScanner.class);
         startActivityForResult(intent,100);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent=new Intent(this,ActivityQRCodeScanner.class);
+                startActivityForResult(intent,100);
+            } else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
     }
 
     class AdapterTitle extends RecyclerView.Adapter<AdapterTitle.ViewHolder>{
