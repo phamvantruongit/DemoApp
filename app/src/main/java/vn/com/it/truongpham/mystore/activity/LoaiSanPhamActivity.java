@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import vn.com.it.truongpham.mystore.R;
@@ -33,6 +35,9 @@ public class LoaiSanPhamActivity extends AppCompatActivity {
         setContentView(R.layout.activity_loai_san_pham);
         database = new Database(this);
         init();
+        long text=10000000L;
+        DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
+        Log.d("text",decimalFormat.format(text)+"");
     }
 
     private void getData() {

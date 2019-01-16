@@ -64,7 +64,7 @@ public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.
             Log.d("object", object.toString());
             //{"tensp":"ao" ,"gia":100,"soluong":1,"size":"29","id":1}
             String tensp = object.getString("tensp");
-            String soluong = String.valueOf(object.getInt("soluong"));
+            String soluong = String.valueOf(object.getInt("tongsoluong"));
             String dongia = String.valueOf(object.getInt("gia"));
             int id = object.getInt("id");
 
@@ -86,7 +86,7 @@ public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.
 
 
             sanPham.setName(tensp);
-            sanPham.setGiaban(Double.parseDouble(dongia));
+            sanPham.setGiaban(Long.parseLong(dongia));
             sanPham.setSoluong(Integer.parseInt(soluong));
             sanPham.setId(id);
 
@@ -97,6 +97,7 @@ public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.
                 tv_size.setText("Size : " + object.getString("size"));
                 sanPham.setSize(size);
             }
+            sanPham.setSize("null");
             list.add(sanPham);
 
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.view.View;
 
 import java.text.SimpleDateFormat;
@@ -21,7 +22,7 @@ public class Database extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
 
-    private static final String TABLE_TYPE_PRODUCT = "tb_loaisp";
+    private static final String TABLE_TYPE_PRODUCT = "tb_type_product";
     private static final String TABLE_PRODUCT = "tb_product";
 
     private static final String KEY_ID = "id";
@@ -89,15 +90,16 @@ public class Database extends SQLiteOpenHelper {
         String strnowtime = sdf.format(nowtime);
 
         values.put(KEY_DATE,strnowtime);
+        values.put(KEY_TYPE_ID,sanPham.getId_loaisp());
 
         db.insert(TABLE_PRODUCT,null,values);
         db.close();
     }
 
-    public List<SanPham> getListSanPham(){
+    public List<SanPham> getListSanPham(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         List<SanPham> list=new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_PRODUCT, null);
+        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_PRODUCT +" WHERE " + KEY_TYPE_ID + " = " +id, null);
         while (cursor.moveToNext()){
             SanPham sanPham=new SanPham();
             sanPham.setId(cursor.getInt(0));
@@ -105,8 +107,8 @@ public class Database extends SQLiteOpenHelper {
             sanPham.setThongin(cursor.getString(2));
             sanPham.setSize(cursor.getString(3));
             sanPham.setSoluong(cursor.getInt(4));
-            sanPham.setGianhap(Double.parseDouble(cursor.getString(5)));
-            sanPham.setGiaban(Double.parseDouble(cursor.getString(6)));
+            sanPham.setGianhap(Long.parseLong(cursor.getString(5)));
+            sanPham.setGiaban(Long.parseLong(cursor.getString(6)));
             list.add(sanPham);
         }
         return list;
@@ -142,6 +144,16 @@ public class Database extends SQLiteOpenHelper {
             list.add(loaiSP);
         }
         return list;
+    }
+
+    public String getNameLoaiSanPham(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String name="";
+        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_TYPE_PRODUCT + " WHERE " + KEY_ID + " = "+ id, null);
+        while (cursor.moveToNext()) {
+          name=cursor.getString(1);
+        }
+        return name;
     }
 
     public void update(int id){

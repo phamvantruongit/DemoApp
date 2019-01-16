@@ -2,10 +2,12 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="2dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
+        android:textColor="@color/black"
         android:id="@+id/tv_loaisp"
-        android:padding="7dp"
+        android:padding="15dp"
         android:text="Loai san pham"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

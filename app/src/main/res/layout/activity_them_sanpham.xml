@@ -34,6 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/black"
             android:padding="10dp"
             android:gravity="center"
             android:text="Nhap thong tin san pham"
@@ -41,18 +44,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
+            android:textSize="@dimen/_14sp"
             android:id="@+id/edTenSP"
             app:layout_constraintTop_toBottomOf="@id/tv"
             android:hint="Ten san pham"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
+            android:maxLines="3"
+            android:textSize="@dimen/_14sp"
             android:id="@+id/edThongTinSP"
             android:hint="Thong tin san pham"
             app:layout_constraintTop_toBottomOf="@id/edTenSP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
+            android:textSize="@dimen/_14sp"
             android:hint="Size"
             android:inputType="textCapWords"
             app:layout_constraintTop_toBottomOf="@id/edThongTinSP"
@@ -60,44 +67,80 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
+            android:maxLength="20"
+            android:textSize="@dimen/_14sp"
             android:inputType="numberDecimal"
+            android:digits="0123456789.,"
             android:id="@+id/edGiaNhapSP"
             android:hint="Gia nhap"
             app:layout_constraintTop_toBottomOf="@id/edSize"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
+            android:maxLength="20"
             android:inputType="numberDecimal"
+            android:digits="0123456789.,"
+            android:textSize="@dimen/_14sp"
             android:id="@+id/edGiaBanSP"
             android:hint="Gia ban"
             app:layout_constraintTop_toBottomOf="@id/edGiaNhapSP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <EditText
-            android:inputType="numberDecimal"
+            android:textSize="@dimen/_14sp"
+            android:maxLength="4"
+            android:inputType="number"
             android:id="@+id/edSLSanPham"
             android:hint="So luong "
             app:layout_constraintTop_toBottomOf="@id/edGiaBanSP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tv_loaisp"
-            android:text="Loai san pham"
+        <LinearLayout
+            android:visibility="gone"
+            android:onClick="showPopup"
+            android:id="@+id/ln_loaisp"
             app:layout_constraintTop_toBottomOf="@id/edSLSanPham"
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Spinner
-            android:id="@+id/spLoaiSanPham"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintLeft_toRightOf="@id/tv_loaisp"
-            app:layout_constraintTop_toBottomOf="@id/edSLSanPham"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content">
+            <TextView
+                android:padding="7dp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:id="@+id/tv_loaisp"
+                android:text="Chon loai san pham :"
+                app:layout_constraintTop_toBottomOf="@id/edSLSanPham"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textStyle="bold|italic"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_14sp"
+                android:padding="7dp"
+                android:text=" Dien thoai"
+                android:id="@+id/tv_showLoaiSP"
+                android:layout_marginLeft="5dp"
+                app:layout_constraintLeft_toRightOf="@id/tv_loaisp"
+                app:layout_constraintTop_toBottomOf="@id/edSLSanPham"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
         <CheckBox
             android:id="@+id/ck_tao_qrcode"
             android:layout_marginTop="10dp"
             android:text="Tao ma qrcode"
-            app:layout_constraintTop_toBottomOf="@id/tv_loaisp"
+            app:layout_constraintTop_toBottomOf="@id/ln_loaisp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:textColor="@color/black"
+            android:textStyle="italic|bold"
+            android:textSize="13sp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="Tim hieu cach su dung QR Code"
+            app:layout_constraintLeft_toRightOf="@id/ck_tao_qrcode"
+            android:layout_marginTop="17dp"
+            app:layout_constraintTop_toBottomOf="@id/ln_loaisp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <ImageView

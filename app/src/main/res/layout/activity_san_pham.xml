@@ -27,19 +27,22 @@
             android:layout_width="25dp"
             android:layout_height="25dp" />
     </RelativeLayout>
-    <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="10dp"
-        android:id="@+id/rv_loaisp"
+    <org.angmarch.views.NiceSpinner
         app:layout_constraintTop_toBottomOf="@id/rl"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/nice_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="45dp"
+        />
 
     <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="100dp"
         android:id="@+id/rv_sp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_loaisp"
+        app:layout_constraintTop_toBottomOf="@id/nice_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/tv_show"

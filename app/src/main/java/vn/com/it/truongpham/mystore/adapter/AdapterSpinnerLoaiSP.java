@@ -28,7 +28,7 @@ public class AdapterSpinnerLoaiSP extends BaseAdapter{
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        View view=LayoutInflater.from(context).inflate(R.layout.item_spinner_loaisp,parent,false);
+        View view=LayoutInflater.from(context).inflate(R.layout.item_sanpham,parent,false);
         TextView tv_loaisp=view.findViewById(R.id.tv_loaisp);
         tv_loaisp.setText(list.get(position).getName());
         return view;

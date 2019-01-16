@@ -1,16 +1,25 @@
 package vn.com.it.truongpham.mystore.activity;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,58 +34,102 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import vn.com.it.truongpham.mystore.R;
+import vn.com.it.truongpham.mystore.adapter.AdapterNumberProduct;
 import vn.com.it.truongpham.mystore.adapter.AdapterSpinnerLoaiSP;
 import vn.com.it.truongpham.mystore.model.LoaiSP;
 import vn.com.it.truongpham.mystore.model.SanPham;
 import vn.com.it.truongpham.mystore.model.data.Database;
 
+import static android.text.InputType.TYPE_CLASS_NUMBER;
+import static android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL;
+import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
+
 public class ThemSanPhamActivity extends AppCompatActivity {
     EditText edTenSP, edThongTinSP, edGiaNhap, edGiaBan, edSL, edSize;
-    Spinner spLoaiSanPham;
     ImageView img_qrcode;
-    TextView tvDongY, tvHuy;
+    TextView tvDongY, tvHuy, tv_loaisp,tv_showLoaiSP;
+
     CheckBox ck_tao_qrcode;
     Database database;
-    AdapterSpinnerLoaiSP adapterSpinnerLoaiSP;
-    List<LoaiSP> loaiSPList;
-    int id;
+    List<LoaiSP> loaiSPList = new ArrayList<>();
+    public int positions, id_loaisanpham ;
+    SanPham sanPham;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_them_sanpham);
+        id_loaisanpham=getIntent().getIntExtra("id_loaisp",1);
+        Bundle bundle=getIntent().getBundleExtra("sanpham");
+        sanPham=bundle.getParcelable("sanpham");
+
         database = new Database(this);
+
+        loaiSPList = database.getListLoaiSP();
+        if(loaiSPList.size()>0){
+            findViewById(R.id.ln_loaisp).setVisibility(View.VISIBLE);
+        }
 
         init();
 
-        loaiSPList = database.getListLoaiSP();
-        adapterSpinnerLoaiSP = new AdapterSpinnerLoaiSP(this, loaiSPList);
-        spLoaiSanPham.setAdapter(adapterSpinnerLoaiSP);
+        if(sanPham!=null){
+             edTenSP.setText(sanPham.getName());
+             edSL.setText(sanPham.getSoluong()+"");
+             edSize.setText(sanPham.getSize().length()>0 ? sanPham.getSize() : "");
+             edThongTinSP.setText(sanPham.getThongin().length()>0 ? sanPham.getThongin() : "");
+             Log.d("TAG",sanPham.getGiaban()+sanPham.getGianhap() +"");
+             edGiaBan.setText(sanPham.getGiaban()+"");
+             edGiaNhap.setText(sanPham.getGianhap()+"");
+
+        }
+
+
     }
 
     private void init() {
+        tv_loaisp = findViewById(R.id.tv_loaisp);
+        tv_showLoaiSP = findViewById(R.id.tv_showLoaiSP);
         edSize = findViewById(R.id.edSize);
         edTenSP = findViewById(R.id.edTenSP);
         edThongTinSP = findViewById(R.id.edThongTinSP);
         edGiaBan = findViewById(R.id.edGiaBanSP);
         edGiaNhap = findViewById(R.id.edGiaNhapSP);
         edSL = findViewById(R.id.edSLSanPham);
-        spLoaiSanPham = findViewById(R.id.spLoaiSanPham);
         img_qrcode = findViewById(R.id.img_qrcode);
         tvDongY = findViewById(R.id.tvDongY);
         tvHuy = findViewById(R.id.tvHuy);
         ck_tao_qrcode = findViewById(R.id.ck_tao_qrcode);
+
+        edGiaNhap.addTextChangedListener(new NumberTextWatcherForThousand(edGiaNhap));
+
+        NumberTextWatcherForThousand numberTextWatcherForThousand=new  NumberTextWatcherForThousand();
+        numberTextWatcherForThousand.trimCommaOfString(edGiaNhap.getText().toString());
+
+        edGiaBan.addTextChangedListener(new NumberTextWatcherForThousand(edGiaBan));
+        numberTextWatcherForThousand.trimCommaOfString(edGiaBan.getText().toString());
+
+
+
 
         tvDongY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String name = edTenSP.getText().toString().trim();
                 String info = edThongTinSP.getText().toString().trim();
-                String giaban = edGiaBan.getText().toString();
-                String gianhap = edGiaNhap.getText().toString();
+                String giaban = edGiaBan.getText().toString().replace(",", "");
+                String gianhap = edGiaNhap.getText().toString().replace(",", "");
+
                 String soluong = edSL.getText().toString();
                 String size = edSize.getText().toString().trim();
 
@@ -84,19 +137,19 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                     SanPham sanPham = new SanPham();
                     sanPham.setName(name);
                     sanPham.setThongin(info);
-                    if (Double.parseDouble(giaban) < Double.parseDouble(gianhap)) {
+
+                    if (Long.parseLong(giaban) < Long.parseLong(gianhap)) {
                         Toast.makeText(ThemSanPhamActivity.this, "Gia ban khong the nho hon gia nhap", Toast.LENGTH_SHORT).show();
-                        edGiaBan.setText("");
-                        edGiaNhap.setText("");
                         return;
                     }
-                    sanPham.setGianhap(Double.parseDouble(gianhap));
-                    sanPham.setGiaban(Double.parseDouble(giaban));
+                    sanPham.setGianhap(Long.parseLong(gianhap));
+                    sanPham.setGiaban(Long.parseLong(giaban));
                     sanPham.setSoluong(Integer.parseInt(soluong));
                     sanPham.setSize(size);
+                    sanPham.setId_loaisp(id_loaisanpham);
                     database.AddSanPham(sanPham);
                     if (ck_tao_qrcode.isChecked()) {
-                        createQRcode(name, giaban, soluong,size);
+                        createQRcode(name, giaban, soluong, size);
                     }
 
                 } else {
@@ -104,7 +157,24 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                 }
             }
         });
+        if (loaiSPList.size() > 0) {
+            tv_showLoaiSP.setText(database.getNameLoaiSanPham(id_loaisanpham));
+        }
+
+        tvHuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edTenSP.setText("");
+                edThongTinSP.setText("");
+                edSize.setText("");
+                edGiaNhap.setText("");
+                edGiaBan.setText("");
+                edSL.setText("");
+            }
+        });
     }
+
+
 
     private void createQRcode(String name, String giaban, String soluong, String size) {
         try {
@@ -112,9 +182,10 @@ public class ThemSanPhamActivity extends AppCompatActivity {
             String json = new JSONObject()
                     .put("tensp", name)
                     .put("gia", giaban)
-                    .put("soluong", soluong)
-                    .put("id", database.getID())
-                    .put("size",size)
+                    .put("tongsoluong",soluong)
+                    .put("soluong", 1)
+                    .put("id",id_loaisanpham)
+                    .put("size", size)
                     .toString();
             Log.d("JSON", json);
 
@@ -162,6 +233,135 @@ public class ThemSanPhamActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    public void showPopup(View view) {
+        final Dialog dialog = new Dialog(ThemSanPhamActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.listview_number_product);
+        dialog.show();
+        ListView lv_product = dialog.findViewById(R.id.lv_product);
+        final AdapterNumberProduct adapterNumberProduct = new AdapterNumberProduct(getApplicationContext(), loaiSPList, positions);
+        lv_product.setAdapter(adapterNumberProduct);
+        lv_product.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                positions = position;
+                id_loaisanpham = loaiSPList.get(position).getId();
+                adapterNumberProduct.adapterNumberProduct(positions);
+                tv_showLoaiSP.setText(loaiSPList.get(positions).getName());
+                dialog.dismiss();
+            }
+        });
+
+
+
+    }
+
+    public class NumberTextWatcherForThousand implements TextWatcher {
+
+        EditText editText;
+
+        public NumberTextWatcherForThousand() {
+        }
+
+        public NumberTextWatcherForThousand(EditText editText) {
+            this.editText = editText;
+
+
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            try
+            {
+                editText.removeTextChangedListener(this);
+                String value = editText.getText().toString();
+
+
+                if (value != null && !value.equals(""))
+                {
+
+                    if(value.startsWith(".")){
+                        editText.setText("0.");
+                    }
+                    if(value.startsWith("0") && !value.startsWith("0.")){
+                        editText.setText("");
+
+                    }
+
+
+                    String str = editText.getText().toString().replaceAll(",", "");
+                    if (!value.equals(""))
+                        editText.setText(getDecimalFormattedString(str));
+                    editText.setSelection(editText.getText().toString().length());
+                }
+                editText.addTextChangedListener(this);
+                return;
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+                editText.addTextChangedListener(this);
+            }
+
+        }
+
+        public  String getDecimalFormattedString(String value)
+        {
+            StringTokenizer lst = new StringTokenizer(value, ".");
+            String str1 = value;
+            String str2 = "";
+            if (lst.countTokens() > 1)
+            {
+                str1 = lst.nextToken();
+                str2 = lst.nextToken();
+            }
+            String str3 = "";
+            int i = 0;
+            int j = -1 + str1.length();
+            if (str1.charAt( -1 + str1.length()) == '.')
+            {
+                j--;
+                str3 = ".";
+            }
+            for (int k = j;; k--)
+            {
+                if (k < 0)
+                {
+                    if (str2.length() > 0)
+                        str3 = str3 + "." + str2;
+                    return str3;
+                }
+                if (i == 3)
+                {
+                    str3 = "," + str3;
+                    i = 0;
+                }
+                str3 = str1.charAt(k) + str3;
+                i++;
+            }
+
+        }
+
+        public  String trimCommaOfString(String string) {
+            if(string.contains(",")){
+                return string.replace(",","");}
+            else {
+                return string;
+            }
+
+        }
     }
 
 }

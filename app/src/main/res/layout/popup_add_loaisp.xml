@@ -2,16 +2,25 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/border_layout"
     android:paddingTop="20dp"
     android:layout_height="200dp">
+    <TextView
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:text="Nhap ten loai san pham"
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <EditText
+        android:textSize="13sp"
+        android:layout_below="@id/tv"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:background="@drawable/boder_item_top"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:id="@+id/edTenLoaiSP"
         android:hint="Nhap ten loai san pham"
         android:layout_width="match_parent"
