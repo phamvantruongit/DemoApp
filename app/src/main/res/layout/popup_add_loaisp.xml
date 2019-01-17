@@ -10,12 +10,12 @@
         android:textColor="@color/black"
         android:gravity="center"
         android:text="Nhap ten loai san pham"
-        android:id="@+id/tv"
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <EditText
         android:textSize="13sp"
-        android:layout_below="@id/tv"
+        android:layout_below="@id/tv_title"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:paddingTop="10dp"

@@ -96,10 +96,38 @@ public class Database extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void editSanPham(SanPham sanPham, int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_NAME, sanPham.getName());
+        values.put(KEY_INFO, sanPham.getThongin());
+        values.put(KEY_SIZE,sanPham.getSize());
+        values.put(KEY_NUMBER, sanPham.getSoluong());
+        values.put(KEY_PRICE_IN, sanPham.getGianhap());
+        values.put(KEY_PRICE_OUT, sanPham.getGiaban());
+
+        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+        Date nowtime=new Date();
+        String strnowtime = sdf.format(nowtime);
+
+        values.put(KEY_DATE,strnowtime);
+        values.put(KEY_TYPE_ID,sanPham.getId_loaisp());
+
+        db.update(TABLE_PRODUCT,values,KEY_ID + " = ?" ,new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+
+    public void xoaSanPham(int id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_PRODUCT,KEY_ID + " = ?" ,new String[]{String.valueOf(id)});
+        db.close();
+    }
+
     public List<SanPham> getListSanPham(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         List<SanPham> list=new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_PRODUCT +" WHERE " + KEY_TYPE_ID + " = " +id, null);
+        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_PRODUCT +" WHERE " + KEY_TYPE_ID + " = " +id + " order by id desc ", null);
         while (cursor.moveToNext()){
             SanPham sanPham=new SanPham();
             sanPham.setId(cursor.getInt(0));
@@ -107,8 +135,8 @@ public class Database extends SQLiteOpenHelper {
             sanPham.setThongin(cursor.getString(2));
             sanPham.setSize(cursor.getString(3));
             sanPham.setSoluong(cursor.getInt(4));
-            sanPham.setGianhap(Long.parseLong(cursor.getString(5)));
-            sanPham.setGiaban(Long.parseLong(cursor.getString(6)));
+            sanPham.setGianhap(cursor.getString(5));
+            sanPham.setGiaban(cursor.getString(6));
             list.add(sanPham);
         }
         return list;
@@ -136,7 +164,7 @@ public class Database extends SQLiteOpenHelper {
     public List<LoaiSP> getListLoaiSP() {
         SQLiteDatabase db = this.getWritableDatabase();
         List<LoaiSP> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_TYPE_PRODUCT, null);
+        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_TYPE_PRODUCT +" order by id desc ", null);
         while (cursor.moveToNext()) {
             LoaiSP loaiSP = new LoaiSP();
             loaiSP.setId(cursor.getInt(0));

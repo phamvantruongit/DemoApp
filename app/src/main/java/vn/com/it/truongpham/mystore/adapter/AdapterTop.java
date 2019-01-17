@@ -46,10 +46,16 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
                         break;
                     case 1 :
                         intent=new Intent(context,SanPhamActivity.class);
+                        intent.putExtra("sendData","");
+                        break;
+                    case 2 :
+                        intent=new Intent(context,SanPhamActivity.class);
+                        intent.putExtra("sendData","sendData");
                         break;
                     case 3 :
                         intent=new Intent(context,BanHangQRCodeActivity.class);
                         break;
+
                 }
 
                 context.startActivity(intent);

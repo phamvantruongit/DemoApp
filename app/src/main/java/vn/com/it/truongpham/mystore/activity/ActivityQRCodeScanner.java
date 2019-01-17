@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,8 +65,9 @@ public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.
             Log.d("object", object.toString());
             //{"tensp":"ao" ,"gia":100,"soluong":1,"size":"29","id":1}
             String tensp = object.getString("tensp");
-            String soluong = String.valueOf(object.getInt("tongsoluong"));
+            String soluong = String.valueOf(object.getInt("soluong"));
             String dongia = String.valueOf(object.getInt("gia"));
+            String thongtin=object.getString("thongtin");
             int id = object.getInt("id");
 
             dialog.setCancelable(false);
@@ -80,24 +82,26 @@ public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.
             SanPham sanPham = new SanPham();
 
             tv_sanpham.setText("Tên sản phẩm: " + tensp);
-            tv_dongia.setText("Đơn giá : " + dongia);
+            long gia=Long.parseLong(dongia);
+            DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
+            tv_dongia.setText("Đơn giá : " + decimalFormat.format(gia));
             tv_sl.setText("Số lượng : " + soluong);
 
 
 
             sanPham.setName(tensp);
-            sanPham.setGiaban(Long.parseLong(dongia));
+            sanPham.setGiaban(dongia);
             sanPham.setSoluong(Integer.parseInt(soluong));
             sanPham.setId(id);
+            sanPham.setThongin(thongtin);
 
             String size = object.getString("size");
 
-            if (size != null && size != "") {
+            if (size.length()>0) {
                 tv_size.setVisibility(View.VISIBLE);
                 tv_size.setText("Size : " + object.getString("size"));
                 sanPham.setSize(size);
             }
-            sanPham.setSize("null");
             list.add(sanPham);
 
 

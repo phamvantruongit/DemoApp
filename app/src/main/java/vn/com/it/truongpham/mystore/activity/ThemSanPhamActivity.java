@@ -1,6 +1,7 @@
 package vn.com.it.truongpham.mystore.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Environment;
@@ -58,40 +59,44 @@ import static android.text.InputType.TYPE_NUMBER_FLAG_SIGNED;
 public class ThemSanPhamActivity extends AppCompatActivity {
     EditText edTenSP, edThongTinSP, edGiaNhap, edGiaBan, edSL, edSize;
     ImageView img_qrcode;
-    TextView tvDongY, tvHuy, tv_loaisp,tv_showLoaiSP;
+    TextView tvDongY, tvHuy, tv_loaisp, tv_showLoaiSP;
 
     CheckBox ck_tao_qrcode;
     Database database;
     List<LoaiSP> loaiSPList = new ArrayList<>();
-    public int positions, id_loaisanpham ;
+    public int positions, id_loaisanpham, id;
     SanPham sanPham;
+    boolean checkEditSP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_them_sanpham);
-        id_loaisanpham=getIntent().getIntExtra("id_loaisp",1);
-        Bundle bundle=getIntent().getBundleExtra("sanpham");
-        sanPham=bundle.getParcelable("sanpham");
+        init();
+
+        id_loaisanpham = getIntent().getIntExtra("id_loaisp", 0);
+        checkEditSP = getIntent().getBooleanExtra("editSP", false);
+        if (checkEditSP) {
+
+            Bundle bundle = getIntent().getBundleExtra("sanpham");
+            sanPham = bundle.getParcelable("sanpham");
+            id = sanPham.getId();
+            edTenSP.setText(sanPham.getName());
+            edSL.setText(sanPham.getSoluong() + "");
+            edSize.setText(sanPham.getSize().length() > 0 ? sanPham.getSize() : "");
+            edThongTinSP.setText(sanPham.getThongin().length() > 0 ? sanPham.getThongin() : "");
+            edGiaBan.setText(sanPham.getGiaban() + "");
+            edGiaNhap.setText(sanPham.getGianhap() + "");
+            TextView tv_title = findViewById(R.id.tv_title);
+            tv_title.setText("Sua thong tin san pham ");
+
+        }
 
         database = new Database(this);
 
         loaiSPList = database.getListLoaiSP();
-        if(loaiSPList.size()>0){
+        if (loaiSPList.size() > 0) {
             findViewById(R.id.ln_loaisp).setVisibility(View.VISIBLE);
-        }
-
-        init();
-
-        if(sanPham!=null){
-             edTenSP.setText(sanPham.getName());
-             edSL.setText(sanPham.getSoluong()+"");
-             edSize.setText(sanPham.getSize().length()>0 ? sanPham.getSize() : "");
-             edThongTinSP.setText(sanPham.getThongin().length()>0 ? sanPham.getThongin() : "");
-             Log.d("TAG",sanPham.getGiaban()+sanPham.getGianhap() +"");
-             edGiaBan.setText(sanPham.getGiaban()+"");
-             edGiaNhap.setText(sanPham.getGianhap()+"");
-
         }
 
 
@@ -113,13 +118,11 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
         edGiaNhap.addTextChangedListener(new NumberTextWatcherForThousand(edGiaNhap));
 
-        NumberTextWatcherForThousand numberTextWatcherForThousand=new  NumberTextWatcherForThousand();
+        NumberTextWatcherForThousand numberTextWatcherForThousand = new NumberTextWatcherForThousand();
         numberTextWatcherForThousand.trimCommaOfString(edGiaNhap.getText().toString());
 
         edGiaBan.addTextChangedListener(new NumberTextWatcherForThousand(edGiaBan));
         numberTextWatcherForThousand.trimCommaOfString(edGiaBan.getText().toString());
-
-
 
 
         tvDongY.setOnClickListener(new View.OnClickListener() {
@@ -142,15 +145,33 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                         Toast.makeText(ThemSanPhamActivity.this, "Gia ban khong the nho hon gia nhap", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    sanPham.setGianhap(Long.parseLong(gianhap));
-                    sanPham.setGiaban(Long.parseLong(giaban));
+
+                    if (Integer.parseInt(soluong) <= 0) {
+                        Toast.makeText(ThemSanPhamActivity.this, "So luong phai >0", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    sanPham.setGianhap(gianhap);
+                    sanPham.setGiaban(giaban);
                     sanPham.setSoluong(Integer.parseInt(soluong));
                     sanPham.setSize(size);
                     sanPham.setId_loaisp(id_loaisanpham);
-                    database.AddSanPham(sanPham);
-                    if (ck_tao_qrcode.isChecked()) {
-                        createQRcode(name, giaban, soluong, size);
+
+                    if (checkEditSP) {
+                        database.editSanPham(sanPham, id);
+                        Toast.makeText(ThemSanPhamActivity.this, "Sua san pham thanh cong", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        database.AddSanPham(sanPham);
+                        Toast.makeText(ThemSanPhamActivity.this, "Them san pham thanh cong", Toast.LENGTH_SHORT).show();
                     }
+
+                    requestFocus();
+
+                    if (ck_tao_qrcode.isChecked()) {
+                        createQRcode(name, giaban, soluong, size,edThongTinSP.getText().toString());
+                    }
+
+
 
                 } else {
                     Toast.makeText(ThemSanPhamActivity.this, "Nhap day thong tin", Toast.LENGTH_SHORT).show();
@@ -164,27 +185,33 @@ public class ThemSanPhamActivity extends AppCompatActivity {
         tvHuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                edTenSP.setText("");
-                edThongTinSP.setText("");
-                edSize.setText("");
-                edGiaNhap.setText("");
-                edGiaBan.setText("");
-                edSL.setText("");
+                requestFocus();
             }
         });
+
     }
 
+    private void requestFocus() {
+        edTenSP.setText("");
+        edThongTinSP.setText("");
+        edSize.setText("");
+        edGiaNhap.setText("");
+        edGiaBan.setText("");
+        edSL.setText("");
+        edTenSP.requestFocus();
 
+    }
 
-    private void createQRcode(String name, String giaban, String soluong, String size) {
+    private void createQRcode(String name, String giaban, String soluong, String size,String thongtin) {
         try {
 
             String json = new JSONObject()
                     .put("tensp", name)
                     .put("gia", giaban)
-                    .put("tongsoluong",soluong)
+                    .put("tongsoluong", soluong)
+                    .put("thongtin",thongtin)
                     .put("soluong", 1)
-                    .put("id",id_loaisanpham)
+                    .put("id", id_loaisanpham)
                     .put("size", size)
                     .toString();
             Log.d("JSON", json);
@@ -255,7 +282,15 @@ public class ThemSanPhamActivity extends AppCompatActivity {
         });
 
 
+    }
 
+    public void onBack(View view) {
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     public class NumberTextWatcherForThousand implements TextWatcher {
@@ -283,19 +318,17 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            try
-            {
+            try {
                 editText.removeTextChangedListener(this);
                 String value = editText.getText().toString();
 
 
-                if (value != null && !value.equals(""))
-                {
+                if (value != null && !value.equals("")) {
 
-                    if(value.startsWith(".")){
+                    if (value.startsWith(".")) {
                         editText.setText("0.");
                     }
-                    if(value.startsWith("0") && !value.startsWith("0.")){
+                    if (value.startsWith("0") && !value.startsWith("0.")) {
                         editText.setText("");
 
                     }
@@ -308,43 +341,35 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                 }
                 editText.addTextChangedListener(this);
                 return;
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 editText.addTextChangedListener(this);
             }
 
         }
 
-        public  String getDecimalFormattedString(String value)
-        {
+        public String getDecimalFormattedString(String value) {
             StringTokenizer lst = new StringTokenizer(value, ".");
             String str1 = value;
             String str2 = "";
-            if (lst.countTokens() > 1)
-            {
+            if (lst.countTokens() > 1) {
                 str1 = lst.nextToken();
                 str2 = lst.nextToken();
             }
             String str3 = "";
             int i = 0;
             int j = -1 + str1.length();
-            if (str1.charAt( -1 + str1.length()) == '.')
-            {
+            if (str1.charAt(-1 + str1.length()) == '.') {
                 j--;
                 str3 = ".";
             }
-            for (int k = j;; k--)
-            {
-                if (k < 0)
-                {
+            for (int k = j; ; k--) {
+                if (k < 0) {
                     if (str2.length() > 0)
                         str3 = str3 + "." + str2;
                     return str3;
                 }
-                if (i == 3)
-                {
+                if (i == 3) {
                     str3 = "," + str3;
                     i = 0;
                 }
@@ -354,10 +379,10 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
         }
 
-        public  String trimCommaOfString(String string) {
-            if(string.contains(",")){
-                return string.replace(",","");}
-            else {
+        public String trimCommaOfString(String string) {
+            if (string.contains(",")) {
+                return string.replace(",", "");
+            } else {
                 return string;
             }
 

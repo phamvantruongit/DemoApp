@@ -42,7 +42,7 @@
             android:textColor="@color/black"
             android:padding="15dp"
             android:gravity="center"
-            android:text="Xoa them san pham"
+            android:text="Xoa  san pham"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

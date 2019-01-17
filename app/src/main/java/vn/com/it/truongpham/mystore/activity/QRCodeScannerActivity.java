@@ -19,6 +19,7 @@ import com.google.zxing.Result;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -54,8 +55,9 @@ public class QRCodeScannerActivity extends Activity implements ZXingScannerView.
             JSONObject object = new JSONObject(result.getText());
             Log.d("object", object.toString());
             String tensp = object.getString("tensp");
-            String soluong = String.valueOf(object.getInt("soluong"));
+            String soluong = String.valueOf(object.getInt("tongsoluong"));
             String dongia = String.valueOf(object.getInt("gia"));
+            String thongtin=object.getString("thongtin");
             int id = object.getInt("id");
 
             dialog.setCancelable(false);
@@ -69,7 +71,9 @@ public class QRCodeScannerActivity extends Activity implements ZXingScannerView.
             TextView tv_size = dialog.findViewById(R.id.tv_size);
 
             tv_sanpham.setText("Tên sản phẩm: " + tensp);
-            tv_dongia.setText("Đơn giá : " + dongia );
+            long gia=Long.parseLong(dongia);
+            DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
+            tv_dongia.setText("Đơn giá : " + decimalFormat.format(gia) );
             tv_sl.setText("Số lượng : " + soluong );
 
             String size = object.getString("size");

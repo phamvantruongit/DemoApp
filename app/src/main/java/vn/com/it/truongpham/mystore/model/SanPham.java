@@ -8,7 +8,7 @@ public class SanPham  implements Parcelable {
     private String name;
     private String thongin;
     private String size;
-    private long gianhap,giaban;
+    private String gianhap,giaban;
     private String ngaynhap;
 
     public SanPham() {
@@ -21,8 +21,8 @@ public class SanPham  implements Parcelable {
         name = in.readString();
         thongin = in.readString();
         size = in.readString();
-        gianhap = in.readLong();
-        giaban = in.readLong();
+        gianhap = in.readString();
+        giaban = in.readString();
         ngaynhap = in.readString();
     }
 
@@ -76,11 +76,11 @@ public class SanPham  implements Parcelable {
         this.thongin = thongin;
     }
 
-    public void setGianhap(long gianhap) {
+    public void setGianhap(String gianhap) {
         this.gianhap = gianhap;
     }
 
-    public void setGiaban(long giaban) {
+    public void setGiaban(String giaban) {
         this.giaban = giaban;
     }
 
@@ -104,11 +104,11 @@ public class SanPham  implements Parcelable {
         return thongin;
     }
 
-    public long getGianhap() {
+    public String getGianhap() {
         return gianhap;
     }
 
-    public long getGiaban() {
+    public String getGiaban() {
         return giaban;
     }
 
@@ -125,8 +125,8 @@ public class SanPham  implements Parcelable {
         dest.writeString(name);
         dest.writeString(thongin);
         dest.writeString(size);
-        dest.writeDouble(gianhap);
-        dest.writeDouble(giaban);
+        dest.writeString(gianhap);
+        dest.writeString(giaban);
         dest.writeString(ngaynhap);
     }
 }

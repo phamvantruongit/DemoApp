@@ -29,6 +29,10 @@
         <activity android:name=".activity.QRCodeScannerActivity" />
         <activity android:name=".activity.ActivityQRCodeScanner" />
         <activity android:name=".activity.BanHangQRCodeActivity"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a2c13386de5da34ea3465eb8895d3d2e3a915b80" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

@@ -39,7 +39,6 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
             viewHolder.tvTTSP.setVisibility(View.VISIBLE);
             viewHolder.tvTTSP.setText(list.get(i).getThongin());
         }
-        Log.d("TAG",list.get(i).getSize() + list.get(i).getThongin());
         if (list.get(i).getSize().length()>0) {
             viewHolder.tv_Size.setVisibility(View.VISIBLE);
             viewHolder.tvSize.setVisibility(View.VISIBLE);
@@ -48,7 +47,8 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
 
         viewHolder.tvSLSP.setText(list.get(i).getSoluong()+"");
         DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
-        viewHolder.tvGia.setText(decimalFormat.format(list.get(i).getGiaban()));
+        long gia= Long.parseLong(list.get(i).getGiaban());
+        viewHolder.tvGia.setText(decimalFormat.format(gia));
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

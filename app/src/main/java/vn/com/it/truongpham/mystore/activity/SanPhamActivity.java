@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import org.angmarch.views.NiceSpinner;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,7 @@ import vn.com.it.truongpham.mystore.model.data.Database;
 
 public class SanPhamActivity extends AppCompatActivity implements SanPhamAdapter.IOnClick {
     RecyclerView rv_sp;
+
     Database database;
     List<LoaiSP> loaiSPList=new ArrayList<>();
     List<SanPham> listSanPham=new ArrayList<>();
@@ -30,6 +34,7 @@ public class SanPhamActivity extends AppCompatActivity implements SanPhamAdapter
     public static int id_loaisp=1;
     SanPhamAdapter sanPhamAdapter;
     RecyclerView.LayoutManager layoutManager;
+    String sendData="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,10 @@ public class SanPhamActivity extends AppCompatActivity implements SanPhamAdapter
         layoutManager=new LinearLayoutManager(this);
         database=new Database(this);
         loaiSPList=database.getListLoaiSP();
-
+        sendData=getIntent().getStringExtra("sendData");
+        if(!sendData.equals("")){
+            findViewById(R.id.iv_add).setVisibility(View.GONE);
+        }
         if(loaiSPList.size()>0) {
             listSanPham = database.getListSanPham(1);
         }
@@ -135,10 +143,21 @@ public class SanPhamActivity extends AppCompatActivity implements SanPhamAdapter
                 dialog.dismiss();
                 Intent intent=new Intent(SanPhamActivity.this,ThemSanPhamActivity.class);
                 intent.putExtra("id_loaisp",id_loaisp);
+                intent.putExtra("editSP",true);
                 Bundle bundle=new Bundle();
                 bundle.putParcelable("sanpham",sanPham);
                 intent.putExtra("sanpham",bundle);
-                startActivityForResult(intent,100);
+                startActivityForResult(intent,101);
+            }
+        });
+
+        dialog.findViewById(R.id.tvXoaSP).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                database.xoaSanPham(sanPham.getId());
+                Toast.makeText(SanPhamActivity.this, "Xoa san pham thanh cong", Toast.LENGTH_SHORT).show();
+
             }
         });
 
