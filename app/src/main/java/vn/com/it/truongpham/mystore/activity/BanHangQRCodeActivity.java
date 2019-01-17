@@ -45,6 +45,7 @@ public class BanHangQRCodeActivity extends AppCompatActivity implements SanPhamA
     private EditText edChietKhau;
     private long TongTien = 0;
     DecimalFormat decimalFormat;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,14 +64,14 @@ public class BanHangQRCodeActivity extends AppCompatActivity implements SanPhamA
         tvDongY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String chietkhau=edChietKhau.getText().toString();
-                if(chietkhau.length()>0){
+                String chietkhau = edChietKhau.getText().toString();
+                if (chietkhau.length() > 0) {
 
                     final long a = Long.parseLong(chietkhau);
                     final long b = TongTien;
-                    final double c = ((double) a / 100) * TongTien;
-                    Log.d("TAG",c+ "-" +a  );
-                    tvTongTien.setText("Tong Tien:"+decimalFormat.format(c));
+                    final double c = ((double) a / 100L) * TongTien;
+                    Log.d("TAG", c + "-" + a);
+                    tvTongTien.setText("Tong Tien:" + decimalFormat.format(c));
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(BanHangQRCodeActivity.this);
                 builder.setCancelable(false);
