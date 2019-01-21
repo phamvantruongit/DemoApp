@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import vn.com.it.truongpham.mystore.activity.ActivityQRCodeScanner;
+import vn.com.it.truongpham.mystore.activity.BanHangActivity;
 import vn.com.it.truongpham.mystore.activity.BanHangQRCodeActivity;
 import vn.com.it.truongpham.mystore.activity.LoaiSanPhamActivity;
 import vn.com.it.truongpham.mystore.R;
@@ -23,14 +24,14 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
 
     public AdapterTop(Context context, String arr[]) {
         this.context = context;
-        this.arr=arr;
+        this.arr = arr;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view=LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_top,viewGroup,false);
-        return  new ViewHolder(view);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_top, viewGroup, false);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -39,21 +40,24 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=null;
-                switch (i){
-                    case 0 :
-                        intent=new Intent(context,LoaiSanPhamActivity.class);
+                Intent intent = null;
+                switch (i) {
+                    case 0:
+                        intent = new Intent(context, LoaiSanPhamActivity.class);
                         break;
-                    case 1 :
-                        intent=new Intent(context,SanPhamActivity.class);
-                        intent.putExtra("sendData","");
+                    case 1:
+                        intent = new Intent(context, SanPhamActivity.class);
+                        intent.putExtra("sendData", "");
                         break;
-                    case 2 :
-                        intent=new Intent(context,SanPhamActivity.class);
-                        intent.putExtra("sendData","sendData");
+                    case 2:
+                        intent = new Intent(context, SanPhamActivity.class);
+                        intent.putExtra("sendData", "sendData");
                         break;
-                    case 3 :
-                        intent=new Intent(context,BanHangQRCodeActivity.class);
+                    case 3:
+                        intent = new Intent(context, BanHangQRCodeActivity.class);
+                        break;
+                    case 4:
+                        intent = new Intent(context, BanHangActivity.class);
                         break;
 
                 }
@@ -70,9 +74,10 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_top;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_top=itemView.findViewById(R.id.tv_top);
+            tv_top = itemView.findViewById(R.id.tv_top);
         }
     }
 }

@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -28,11 +29,14 @@
         <activity android:name=".activity.ThemSanPhamActivity" />
         <activity android:name=".activity.QRCodeScannerActivity" />
         <activity android:name=".activity.ActivityQRCodeScanner" />
-        <activity android:name=".activity.BanHangQRCodeActivity"></activity>
+        <activity android:name=".activity.BanHangQRCodeActivity" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a2c13386de5da34ea3465eb8895d3d2e3a915b80" />
+
+        <activity android:name=".activity.BanHangActivity" />
+        <activity android:name=".activity.DSMuaSanPhamActivity"></activity>
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

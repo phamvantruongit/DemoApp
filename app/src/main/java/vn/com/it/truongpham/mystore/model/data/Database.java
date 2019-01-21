@@ -127,7 +127,7 @@ public class Database extends SQLiteOpenHelper {
     public List<SanPham> getListSanPham(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         List<SanPham> list=new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_PRODUCT +" WHERE " + KEY_TYPE_ID + " = " +id + " order by id desc ", null);
+        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_PRODUCT +" WHERE " + KEY_TYPE_ID + " = " +id , null);
         while (cursor.moveToNext()){
             SanPham sanPham=new SanPham();
             sanPham.setId(cursor.getInt(0));
@@ -164,7 +164,7 @@ public class Database extends SQLiteOpenHelper {
     public List<LoaiSP> getListLoaiSP() {
         SQLiteDatabase db = this.getWritableDatabase();
         List<LoaiSP> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_TYPE_PRODUCT +" order by id desc ", null);
+        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_TYPE_PRODUCT , null);
         while (cursor.moveToNext()) {
             LoaiSP loaiSP = new LoaiSP();
             loaiSP.setId(cursor.getInt(0));
@@ -177,7 +177,7 @@ public class Database extends SQLiteOpenHelper {
     public String getNameLoaiSanPham(int id){
         SQLiteDatabase db = this.getWritableDatabase();
         String name="";
-        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_TYPE_PRODUCT + " WHERE " + KEY_ID + " = "+ id, null);
+        Cursor cursor = db.rawQuery(" SELECT *  FROM " + TABLE_TYPE_PRODUCT + " WHERE " + KEY_ID + " = "+ id, null);
         while (cursor.moveToNext()) {
           name=cursor.getString(1);
         }

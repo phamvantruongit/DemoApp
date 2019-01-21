@@ -15,29 +15,22 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.HeaderViewListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import vn.com.it.truongpham.mystore.R;
-import vn.com.it.truongpham.mystore.adapter.HeaderAdapter;
 import vn.com.it.truongpham.mystore.adapter.SanPhamAdapter;
 import vn.com.it.truongpham.mystore.model.SanPham;
 
-import static io.fabric.sdk.android.services.concurrency.AsyncTask.init;
 
-public class BanHangQRCodeActivity extends AppCompatActivity implements SanPhamAdapter.IOnClick {
+
+public class BanHangActivity extends AppCompatActivity implements SanPhamAdapter.IOnClick {
     private List<SanPham> list;
     private RecyclerView rv_ListSP;
     private TextView tvDongY, tvTongTien;
@@ -73,7 +66,7 @@ public class BanHangQRCodeActivity extends AppCompatActivity implements SanPhamA
                     Log.d("TAG", c + "-" + a);
                     tvTongTien.setText("Tong Tien:" + decimalFormat.format(c));
                 }
-                AlertDialog.Builder builder = new AlertDialog.Builder(BanHangQRCodeActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(BanHangActivity.this);
                 builder.setCancelable(false);
                 builder.setTitle("Thong bao");
                 builder.setMessage("Ban co muon in hoa don ?");
@@ -99,15 +92,15 @@ public class BanHangQRCodeActivity extends AppCompatActivity implements SanPhamA
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
-            list = ActivityQRCodeScanner.getListSanPham();
-            for (int i = 0; i < list.size(); i++) {
-                TongTien += Long.parseLong(list.get(i).getGiaban()) * list.get(i).getSoluong();
-            }
-            tvTongTien.setText(decimalFormat.format(TongTien));
-
-            SanPhamAdapter sanPhamAdapter = new SanPhamAdapter(list, this,false);
-            rv_ListSP.setLayoutManager(layoutManager);
-            rv_ListSP.setAdapter(sanPhamAdapter);
+//            list = ActivityQRCodeScanner.getListSanPham();
+//            for (int i = 0; i < list.size(); i++) {
+//                TongTien += Long.parseLong(list.get(i).getGiaban()) * list.get(i).getSoluong();
+//            }
+//            tvTongTien.setText(decimalFormat.format(TongTien));
+//
+//            SanPhamAdapter sanPhamAdapter = new SanPhamAdapter(list, this,true);
+//            rv_ListSP.setLayoutManager(layoutManager);
+//            rv_ListSP.setAdapter(sanPhamAdapter);
 
 
         }
@@ -115,35 +108,13 @@ public class BanHangQRCodeActivity extends AppCompatActivity implements SanPhamA
 
     public void OpenQRCode(View view) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int checkCallPhonePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-            int checkCallPhonePermission2 = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            int checkCallPhonePermission3 = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-
-            if (checkCallPhonePermission != PackageManager.PERMISSION_GRANTED && checkCallPhonePermission2 != PackageManager.PERMISSION_GRANTED && checkCallPhonePermission3 != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 100);
-                return;
-            } else {
-                Intent intent = new Intent(this, ActivityQRCodeScanner.class);
-                startActivityForResult(intent, 100);
-            }
-
-        }
-        Intent intent = new Intent(this, ActivityQRCodeScanner.class);
+        Intent intent = new Intent(this, DSMuaSanPhamActivity.class);
         startActivityForResult(intent, 100);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 100) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Intent intent = new Intent(this, ActivityQRCodeScanner.class);
-                startActivityForResult(intent, 100);
-            } else {
-                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
-            }
-            return;
-        }
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
     }
@@ -154,3 +125,4 @@ public class BanHangQRCodeActivity extends AppCompatActivity implements SanPhamA
 
     }
 }
+

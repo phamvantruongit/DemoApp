@@ -13,19 +13,20 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.angmarch.views.NiceSpinner;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import vn.com.it.truongpham.mystore.R;
 import vn.com.it.truongpham.mystore.adapter.SanPhamAdapter;
 import vn.com.it.truongpham.mystore.model.LoaiSP;
 import vn.com.it.truongpham.mystore.model.SanPham;
 import vn.com.it.truongpham.mystore.model.data.Database;
 
-public class SanPhamActivity extends AppCompatActivity implements SanPhamAdapter.IOnClick {
+public class DSMuaSanPhamActivity extends AppCompatActivity implements SanPhamAdapter.IOnClick {
     RecyclerView rv_sp;
 
     Database database;
@@ -35,7 +36,6 @@ public class SanPhamActivity extends AppCompatActivity implements SanPhamAdapter
     public static int id_loaisp=1;
     SanPhamAdapter sanPhamAdapter;
     RecyclerView.LayoutManager layoutManager;
-    String sendData="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +44,6 @@ public class SanPhamActivity extends AppCompatActivity implements SanPhamAdapter
         layoutManager=new LinearLayoutManager(this);
         database=new Database(this);
         loaiSPList=database.getListLoaiSP();
-        sendData=getIntent().getStringExtra("sendData");
-        if(!sendData.equals("")){
-            findViewById(R.id.iv_add).setVisibility(View.GONE);
-        }
         if(loaiSPList.size()>0) {
             listSanPham = database.getListSanPham(1);
         }
@@ -62,17 +58,17 @@ public class SanPhamActivity extends AppCompatActivity implements SanPhamAdapter
     }
 
     private void getListSanPham(){
-       if(listSanPham.size()>0){
-           rv_sp.setVisibility(View.VISIBLE);
-           sanPhamAdapter=new SanPhamAdapter(listSanPham,this,false);
-           rv_sp.setLayoutManager(layoutManager);
-           rv_sp.setAdapter(sanPhamAdapter);
-           sanPhamAdapter.notifyDataSetChanged();
+        if(listSanPham.size()>0){
+            rv_sp.setVisibility(View.VISIBLE);
+            sanPhamAdapter=new SanPhamAdapter(listSanPham,this,true);
+            rv_sp.setLayoutManager(layoutManager);
+            rv_sp.setAdapter(sanPhamAdapter);
+            sanPhamAdapter.notifyDataSetChanged();
 
-       }else {
-           rv_sp.setVisibility(View.GONE);
-       }
-   }
+        }else {
+            rv_sp.setVisibility(View.GONE);
+        }
+    }
     private void init() {
         rv_sp=findViewById(R.id.rv_sp);
         NiceSpinner niceSpinner = findViewById(R.id.nice_spinner);
@@ -113,57 +109,8 @@ public class SanPhamActivity extends AppCompatActivity implements SanPhamAdapter
 
     @Override
     public void iOnClick(final SanPham sanPham , final int position) {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.show_dialog);
-        dialog.show();
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setGravity(Gravity.BOTTOM);
-            dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-        dialog.findViewById(R.id.tvHuy).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.findViewById(R.id.tvThemSP).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                Intent intent=new Intent(SanPhamActivity.this,ThemSanPhamActivity.class);
-                intent.putExtra("id_loaisp",id_loaisp);
-                startActivityForResult(intent,100);
-            }
-        });
-
-        dialog.findViewById(R.id.tvSuaSP).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                Intent intent=new Intent(SanPhamActivity.this,ThemSanPhamActivity.class);
-                intent.putExtra("id_loaisp",id_loaisp);
-                intent.putExtra("editSP",true);
-                Bundle bundle=new Bundle();
-                bundle.putParcelable("sanpham",sanPham);
-                intent.putExtra("sanpham",bundle);
-                startActivityForResult(intent,101);
-            }
-        });
-
-        dialog.findViewById(R.id.tvXoaSP).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                database.xoaSanPham(sanPham.getId());
-                listSanPham.remove(position);
-                sanPhamAdapter.notifyDataSetChanged();
-                Toast.makeText(SanPhamActivity.this, "Xoa san pham thanh cong", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
+       List<SanPham> list=new ArrayList<>();
+       list.add(sanPham);
     }
 }
+

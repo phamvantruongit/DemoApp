@@ -64,18 +64,24 @@ public class ThemSanPhamActivity extends AppCompatActivity {
     CheckBox ck_tao_qrcode;
     Database database;
     List<LoaiSP> loaiSPList = new ArrayList<>();
-    public int positions, id_loaisanpham, id;
+    public int positions, id_loaisanpham=0, id;
     SanPham sanPham;
     boolean checkEditSP;
+    String name="";
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        database = new Database(this);
+        id_loaisanpham = getIntent().getIntExtra("id_loaisp", 1);
+        checkEditSP = getIntent().getBooleanExtra("editSP", false);
+
         setContentView(R.layout.activity_them_sanpham);
+
         init();
 
-        id_loaisanpham = getIntent().getIntExtra("id_loaisp", 0);
-        checkEditSP = getIntent().getBooleanExtra("editSP", false);
         if (checkEditSP) {
 
             Bundle bundle = getIntent().getBundleExtra("sanpham");
@@ -92,7 +98,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
         }
 
-        database = new Database(this);
+
 
         loaiSPList = database.getListLoaiSP();
         if (loaiSPList.size() > 0) {
@@ -115,6 +121,11 @@ public class ThemSanPhamActivity extends AppCompatActivity {
         tvDongY = findViewById(R.id.tvDongY);
         tvHuy = findViewById(R.id.tvHuy);
         ck_tao_qrcode = findViewById(R.id.ck_tao_qrcode);
+        name=database.getNameLoaiSanPham(id_loaisanpham);
+
+        tv_showLoaiSP.setText(name);
+
+
 
         edGiaNhap.addTextChangedListener(new NumberTextWatcherForThousand(edGiaNhap));
 
@@ -165,12 +176,10 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                         Toast.makeText(ThemSanPhamActivity.this, "Them san pham thanh cong", Toast.LENGTH_SHORT).show();
                     }
 
-                    requestFocus();
 
                     if (ck_tao_qrcode.isChecked()) {
-                        createQRcode(name, giaban, soluong, size,edThongTinSP.getText().toString());
+                        createQRcode(name, giaban, soluong, size, edThongTinSP.getText().toString());
                     }
-
 
 
                 } else {
@@ -178,9 +187,9 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                 }
             }
         });
-        if (loaiSPList.size() > 0) {
-            tv_showLoaiSP.setText(database.getNameLoaiSanPham(id_loaisanpham));
-        }
+
+
+
 
         tvHuy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,14 +211,14 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
     }
 
-    private void createQRcode(String name, String giaban, String soluong, String size,String thongtin) {
+    private void createQRcode(String name, String giaban, String soluong, String size, String thongtin) {
         try {
 
             String json = new JSONObject()
                     .put("tensp", name)
                     .put("gia", giaban)
                     .put("tongsoluong", soluong)
-                    .put("thongtin",thongtin)
+                    .put("thongtin", thongtin)
                     .put("soluong", 1)
                     .put("id", id_loaisanpham)
                     .put("size", size)
@@ -218,7 +227,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
 
             QRCodeWriter writer = new QRCodeWriter();
             try {
-                BitMatrix bitMatrix = writer.encode(json, BarcodeFormat.QR_CODE, 512, 512);
+                BitMatrix bitMatrix = writer.encode(json, BarcodeFormat.QR_CODE, 100, 90);
                 int width = bitMatrix.getWidth();
                 int height = bitMatrix.getHeight();
                 Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
@@ -263,7 +272,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
     }
 
     public void showPopup(View view) {
-        final Dialog dialog = new Dialog(ThemSanPhamActivity.this);
+        dialog = new Dialog(ThemSanPhamActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.listview_number_product);
         dialog.show();
