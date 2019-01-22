@@ -64,7 +64,7 @@ public class SanPhamActivity extends AppCompatActivity implements SanPhamAdapter
     private void getListSanPham(){
        if(listSanPham.size()>0){
            rv_sp.setVisibility(View.VISIBLE);
-           sanPhamAdapter=new SanPhamAdapter(listSanPham,this,false);
+           sanPhamAdapter=new SanPhamAdapter(this,listSanPham,this,false);
            rv_sp.setLayoutManager(layoutManager);
            rv_sp.setAdapter(sanPhamAdapter);
            sanPhamAdapter.notifyDataSetChanged();
@@ -90,7 +90,6 @@ public class SanPhamActivity extends AppCompatActivity implements SanPhamAdapter
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 position++;
                 id_loaisp=position;
-                Log.d("ID",id_loaisp+"");
                 listSanPham=database.getListSanPham(position);
                 getListSanPham();
             }

@@ -27,7 +27,7 @@ import java.util.List;
 import vn.com.it.truongpham.mystore.R;
 import vn.com.it.truongpham.mystore.adapter.SanPhamAdapter;
 import vn.com.it.truongpham.mystore.model.SanPham;
-
+import vn.com.it.truongpham.mystore.model.data.Database;
 
 
 public class BanHangActivity extends AppCompatActivity implements SanPhamAdapter.IOnClick {
@@ -38,10 +38,12 @@ public class BanHangActivity extends AppCompatActivity implements SanPhamAdapter
     private EditText edChietKhau;
     private long TongTien = 0;
     DecimalFormat decimalFormat;
+    Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        database=new Database(this);
         setContentView(R.layout.activity_banhang_qrcode);
         list = new ArrayList<>();
         decimalFormat = new DecimalFormat("###,###,###");
@@ -123,6 +125,12 @@ public class BanHangActivity extends AppCompatActivity implements SanPhamAdapter
     @Override
     public void iOnClick(SanPham sanPham, int position) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        database.updateStatus();
     }
 }
 

@@ -1,5 +1,6 @@
 package vn.com.it.truongpham.mystore.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,15 +16,20 @@ import java.util.List;
 
 import vn.com.it.truongpham.mystore.R;
 import vn.com.it.truongpham.mystore.model.SanPham;
+import vn.com.it.truongpham.mystore.model.data.Database;
 
 public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHolder> {
     List<SanPham> list;
     IOnClick iOnClick;
     boolean check;
-    public SanPhamAdapter(List<SanPham> list, IOnClick iOnClick,boolean check) {
+    Database database;
+    Context context;
+    public SanPhamAdapter(Context context,List<SanPham> list, IOnClick iOnClick,boolean check) {
+        this.context=context;
         this.list = list;
         this.iOnClick = iOnClick;
         this.check=check;
+        database=new Database(context);
     }
 
 
@@ -40,6 +46,9 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
         viewHolder.tvTenSP.setText(list.get(position).getName());
         if(check){
             viewHolder.ckbox.setVisibility(View.VISIBLE);
+            if(list.get(position).getStatus().equals("1")){
+                viewHolder.ckbox.setChecked(true);
+            }
         }
         if (list.get(position).getThongin().length()>0) {
             viewHolder.tvTTSP.setVisibility(View.VISIBLE);
@@ -66,7 +75,13 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
         viewHolder.ckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                iOnClick.iOnClick(list.get(position),position);
+                if(isChecked){
+                    database.updateStatus(list.get(position).getId(),"1");
+                    iOnClick.iOnClick(list.get(position),position);
+                }else {
+                   database.updateStatus(list.get(position).getId(),"0");
+                }
+
             }
         });
 

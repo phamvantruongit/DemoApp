@@ -30,10 +30,10 @@ public class DSMuaSanPhamActivity extends AppCompatActivity implements SanPhamAd
     RecyclerView rv_sp;
 
     Database database;
-    List<LoaiSP> loaiSPList=new ArrayList<>();
-    List<SanPham> listSanPham=new ArrayList<>();
+    List<LoaiSP> loaiSPList = new ArrayList<>();
+    List<SanPham> listSanPham = new ArrayList<>();
     //https://github.com/arcadefire/nice-spinner
-    public static int id_loaisp=1;
+    public static int id_loaisp = 1;
     SanPhamAdapter sanPhamAdapter;
     RecyclerView.LayoutManager layoutManager;
 
@@ -41,10 +41,10 @@ public class DSMuaSanPhamActivity extends AppCompatActivity implements SanPhamAd
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_san_pham);
-        layoutManager=new LinearLayoutManager(this);
-        database=new Database(this);
-        loaiSPList=database.getListLoaiSP();
-        if(loaiSPList.size()>0) {
+        layoutManager = new LinearLayoutManager(this);
+        database = new Database(this);
+        loaiSPList = database.getListLoaiSP();
+        if (loaiSPList.size() > 0) {
             listSanPham = database.getListSanPham(1);
         }
         init();
@@ -57,24 +57,25 @@ public class DSMuaSanPhamActivity extends AppCompatActivity implements SanPhamAd
         getListSanPham();
     }
 
-    private void getListSanPham(){
-        if(listSanPham.size()>0){
+    private void getListSanPham() {
+        if (listSanPham.size() > 0) {
             rv_sp.setVisibility(View.VISIBLE);
-            sanPhamAdapter=new SanPhamAdapter(listSanPham,this,true);
+            sanPhamAdapter = new SanPhamAdapter(DSMuaSanPhamActivity.this,listSanPham, this, true);
             rv_sp.setLayoutManager(layoutManager);
             rv_sp.setAdapter(sanPhamAdapter);
             sanPhamAdapter.notifyDataSetChanged();
 
-        }else {
+        } else {
             rv_sp.setVisibility(View.GONE);
         }
     }
+
     private void init() {
-        rv_sp=findViewById(R.id.rv_sp);
+        rv_sp = findViewById(R.id.rv_sp);
         NiceSpinner niceSpinner = findViewById(R.id.nice_spinner);
         niceSpinner.setVisibility(View.GONE);
-        List<String> list=new ArrayList<>();
-        if(loaiSPList.size()>0) {
+        List<String> list = new ArrayList<>();
+        if (loaiSPList.size() > 0) {
             niceSpinner.setVisibility(View.VISIBLE);
             for (LoaiSP loaiSP : loaiSPList) {
                 list.add(loaiSP.getName());
@@ -85,14 +86,12 @@ public class DSMuaSanPhamActivity extends AppCompatActivity implements SanPhamAd
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 position++;
-                id_loaisp=position;
-                Log.d("ID",id_loaisp+"");
-                listSanPham=database.getListSanPham(position);
+                id_loaisp = position;
+                Log.d("ID", id_loaisp + "");
+                listSanPham = database.getListSanPham(position);
                 getListSanPham();
             }
         });
-
-
 
 
     }
@@ -102,15 +101,16 @@ public class DSMuaSanPhamActivity extends AppCompatActivity implements SanPhamAd
     }
 
     public void OpenActivity(View view) {
-        Intent intent=new Intent(this,ThemSanPhamActivity.class);
-        intent.putExtra("id_loaisp",id_loaisp);
-        startActivityForResult(intent,100);
+        Intent intent = new Intent(this, ThemSanPhamActivity.class);
+        intent.putExtra("id_loaisp", id_loaisp);
+        startActivityForResult(intent, 100);
     }
 
     @Override
-    public void iOnClick(final SanPham sanPham , final int position) {
-       List<SanPham> list=new ArrayList<>();
-       list.add(sanPham);
+    public void iOnClick(final SanPham sanPham, final int position) {
+        List<SanPham> list = new ArrayList<>();
+        list.add(sanPham);
     }
+
 }
 

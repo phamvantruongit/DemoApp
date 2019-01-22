@@ -105,7 +105,7 @@ public class BanHangQRCodeActivity extends AppCompatActivity implements SanPhamA
             }
             tvTongTien.setText(decimalFormat.format(TongTien));
 
-            SanPhamAdapter sanPhamAdapter = new SanPhamAdapter(list, this,false);
+            SanPhamAdapter sanPhamAdapter = new SanPhamAdapter(BanHangQRCodeActivity.this,list, this,false);
             rv_ListSP.setLayoutManager(layoutManager);
             rv_ListSP.setAdapter(sanPhamAdapter);
 

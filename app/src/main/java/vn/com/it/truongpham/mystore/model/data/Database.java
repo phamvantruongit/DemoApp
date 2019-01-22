@@ -19,7 +19,7 @@ import vn.com.it.truongpham.mystore.model.SanPham;
 
 public class Database extends SQLiteOpenHelper {
     public static String DATABASE_NAME = "database";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     private static final String TABLE_TYPE_PRODUCT = "tb_type_product";
@@ -43,6 +43,8 @@ public class Database extends SQLiteOpenHelper {
 
     private static final String KEY_DATE="date";
 
+    private static final String KEY_STATUS="status";
+
 
     private static final String CREATE_TABLE_TYPE_PRODUCT = "CREATE TABLE "
             + TABLE_TYPE_PRODUCT + "(" + KEY_ID
@@ -53,7 +55,7 @@ public class Database extends SQLiteOpenHelper {
             + TABLE_PRODUCT + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , "
             + KEY_NAME + " TEXT , " + KEY_INFO + " TEXT , " + KEY_SIZE + "  TEXT ,"
             + KEY_NUMBER + " INTEGER ," + KEY_PRICE_IN + " TEXT ,"
-            + KEY_PRICE_OUT + " TEXT," + KEY_TYPE_ID + " INTEGER , " + KEY_DATE + " TEXT );";
+            + KEY_PRICE_OUT + " TEXT," + KEY_TYPE_ID + " INTEGER , " + KEY_DATE + " TEXT ," + KEY_STATUS + " TEXT );";
 
 
     public Database(Context context) {
@@ -91,6 +93,7 @@ public class Database extends SQLiteOpenHelper {
 
         values.put(KEY_DATE,strnowtime);
         values.put(KEY_TYPE_ID,sanPham.getId_loaisp());
+        values.put(KEY_STATUS,"0");
 
         db.insert(TABLE_PRODUCT,null,values);
         db.close();
@@ -137,6 +140,7 @@ public class Database extends SQLiteOpenHelper {
             sanPham.setSoluong(cursor.getInt(4));
             sanPham.setGianhap(cursor.getString(5));
             sanPham.setGiaban(cursor.getString(6));
+            sanPham.setStatus(cursor.getString(9));
             list.add(sanPham);
         }
         return list;
@@ -188,6 +192,22 @@ public class Database extends SQLiteOpenHelper {
         SQLiteDatabase db=this.getWritableDatabase();
         Cursor cursor=db.rawQuery("update tb_product set number=number-1 where id = "+ id,null);
         cursor.moveToNext();
+    }
+
+    public void updateStatus(int id ,String status){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put(KEY_STATUS,status);
+        db.update(TABLE_PRODUCT,values,KEY_ID + " = ?" ,new String[]{String.valueOf(id)});
+        db.close();
+    }
+
+    public void updateStatus(){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues values=new ContentValues();
+        values.put(KEY_STATUS,"0");
+        db.update(TABLE_PRODUCT,values,null ,null);
+        db.close();
     }
 
 
