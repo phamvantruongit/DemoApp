@@ -1,6 +1,5 @@
 package vn.com.it.truongpham.mystore.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -94,15 +93,15 @@ public class BanHangActivity extends AppCompatActivity implements SanPhamAdapter
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
-//            list = ActivityQRCodeScanner.getListSanPham();
-//            for (int i = 0; i < list.size(); i++) {
-//                TongTien += Long.parseLong(list.get(i).getGiaban()) * list.get(i).getSoluong();
-//            }
-//            tvTongTien.setText(decimalFormat.format(TongTien));
-//
-//            SanPhamAdapter sanPhamAdapter = new SanPhamAdapter(list, this,true);
-//            rv_ListSP.setLayoutManager(layoutManager);
-//            rv_ListSP.setAdapter(sanPhamAdapter);
+            list=data.getParcelableArrayListExtra("listCart");
+            for (int i = 0; i < list.size(); i++) {
+                TongTien += Long.parseLong(list.get(i).getGiaban()) * list.get(i).getSoluong();
+            }
+            tvTongTien.setText(decimalFormat.format(TongTien));
+
+            SanPhamAdapter sanPhamAdapter = new SanPhamAdapter(BanHangActivity.this, list,this,false);
+            rv_ListSP.setLayoutManager(layoutManager);
+            rv_ListSP.setAdapter(sanPhamAdapter);
 
 
         }

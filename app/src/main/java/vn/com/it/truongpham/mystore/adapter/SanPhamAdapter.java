@@ -3,15 +3,16 @@ package vn.com.it.truongpham.mystore.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.com.it.truongpham.mystore.R;
@@ -19,18 +20,24 @@ import vn.com.it.truongpham.mystore.model.SanPham;
 import vn.com.it.truongpham.mystore.model.data.Database;
 
 public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHolder> {
-    List<SanPham> list;
+    List<SanPham> listMain;
     IOnClick iOnClick;
     boolean check;
     Database database;
     Context context;
+
+
     public SanPhamAdapter(Context context,List<SanPham> list, IOnClick iOnClick,boolean check) {
         this.context=context;
-        this.list = list;
         this.iOnClick = iOnClick;
         this.check=check;
+        listMain=list;
+
         database=new Database(context);
+
     }
+
+
 
 
 
@@ -43,32 +50,32 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
-        viewHolder.tvTenSP.setText(list.get(position).getName());
+        viewHolder.tvTenSP.setText(listMain.get(position).getName());
         if(check){
             viewHolder.ckbox.setVisibility(View.VISIBLE);
-            if(list.get(position).getStatus().equals("1")){
+            if(listMain.get(position).getStatus().equals("1")){
                 viewHolder.ckbox.setChecked(true);
             }
         }
-        if (list.get(position).getThongin().length()>0) {
+        if (listMain.get(position).getThongin().length()>0) {
             viewHolder.tvTTSP.setVisibility(View.VISIBLE);
-            viewHolder.tvTTSP.setText(list.get(position).getThongin());
+            viewHolder.tvTTSP.setText(listMain.get(position).getThongin());
         }
-        if (list.get(position).getSize().length()>0) {
+        if (listMain.get(position).getSize().length()>0) {
             viewHolder.tv_Size.setVisibility(View.VISIBLE);
             viewHolder.tvSize.setVisibility(View.VISIBLE);
-            viewHolder.tvSize.setText(list.get(position).getSize());
+            viewHolder.tvSize.setText(listMain.get(position).getSize());
         }
 
-        viewHolder.tvSLSP.setText(list.get(position).getSoluong()+"");
+        viewHolder.tvSLSP.setText(listMain.get(position).getSoluong()+"");
         DecimalFormat decimalFormat=new DecimalFormat("###,###,###");
-        long gia= Long.parseLong(list.get(position).getGiaban());
+        long gia= Long.parseLong(listMain.get(position).getGiaban());
         viewHolder.tvGia.setText(decimalFormat.format(gia));
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iOnClick.iOnClick(list.get(position),position);
+                iOnClick.iOnClick(listMain.get(position),position);
             }
         });
 
@@ -76,10 +83,10 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    database.updateStatus(list.get(position).getId(),"1");
-                    iOnClick.iOnClick(list.get(position),position);
+                    database.updateStatus(listMain.get(position).getId(),"1");
+                    iOnClick.iOnClick(listMain.get(position),position);
                 }else {
-                   database.updateStatus(list.get(position).getId(),"0");
+                   database.updateStatus(listMain.get(position).getId(),"0");
                 }
 
             }
@@ -88,9 +95,10 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
 
     }
 
+
     @Override
     public int getItemCount() {
-        return list.size();
+        return listMain.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -112,4 +120,6 @@ public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHold
     public interface  IOnClick{
         void iOnClick(SanPham sanPham,int position);
     }
+
+
 }

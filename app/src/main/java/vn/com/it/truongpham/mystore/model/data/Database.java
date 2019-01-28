@@ -147,6 +147,27 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
+    public List<SanPham> searchListSanPham(String name){
+        //SELECT * FROM 'tb_product' where name like  '%sam sung%';
+        SQLiteDatabase db = this.getWritableDatabase();
+        List<SanPham> list=new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_PRODUCT + " WHERE  " + KEY_NAME  + " LIKE  '%"+name+"%'" , null);
+        while (cursor.moveToNext()){
+            SanPham sanPham=new SanPham();
+            sanPham.setId(cursor.getInt(0));
+            sanPham.setName(cursor.getString(1));
+            sanPham.setThongin(cursor.getString(2));
+            sanPham.setSize(cursor.getString(3));
+            sanPham.setSoluong(cursor.getInt(4));
+            sanPham.setGianhap(cursor.getString(5));
+            sanPham.setGiaban(cursor.getString(6));
+            sanPham.setStatus(cursor.getString(9));
+            list.add(sanPham);
+        }
+        return list;
+
+    }
+
     public  int getID(){
         SQLiteDatabase db=this.getWritableDatabase();
         int id=0;
