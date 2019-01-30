@@ -58,7 +58,7 @@ public class QRCodeScannerActivity extends Activity implements ZXingScannerView.
             String soluong = String.valueOf(object.getInt("tongsoluong"));
             String dongia = String.valueOf(object.getInt("gia"));
             String thongtin=object.getString("thongtin");
-            int id = object.getInt("id");
+            int id = object.getInt("id_type");
 
             dialog.setCancelable(false);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

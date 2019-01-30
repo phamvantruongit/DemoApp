@@ -220,7 +220,7 @@ public class ThemSanPhamActivity extends AppCompatActivity {
                     .put("tongsoluong", soluong)
                     .put("thongtin", thongtin)
                     .put("soluong", 1)
-                    .put("id", id_loaisanpham)
+                    .put("id_type", id_loaisanpham)
                     .put("size", size)
                     .toString();
             Log.d("JSON", json);

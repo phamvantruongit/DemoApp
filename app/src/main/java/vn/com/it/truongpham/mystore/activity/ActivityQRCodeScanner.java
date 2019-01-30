@@ -63,12 +63,12 @@ public class ActivityQRCodeScanner extends Activity implements ZXingScannerView.
         try {
             JSONObject object = new JSONObject(result.getText());
             Log.d("object", object.toString());
-            //{"tensp":"ao" ,"gia":100,"soluong":1,"size":"29","id":1}
+            //{"tensp":"ao" ,"gia":100,"soluong":1,"size":"29","id_type":1}
             String tensp = object.getString("tensp");
             String soluong = String.valueOf(object.getInt("soluong"));
             String dongia = String.valueOf(object.getInt("gia"));
             String thongtin=object.getString("thongtin");
-            int id = object.getInt("id");
+            int id = object.getInt("id_type");
 
             dialog.setCancelable(false);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

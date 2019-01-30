@@ -165,7 +165,7 @@ public class MainActivity extends AppCompatActivity
                                 ApplicationInfo appInfo = pm.getApplicationInfo(BuildConfig.APPLICATION_ID, PackageManager.GET_META_DATA);
                                 intent = pm.getLaunchIntentForPackage(BuildConfig.APPLICATION_ID);
                             } catch (PackageManager.NameNotFoundException e) {
-                                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID));
+                                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id_type=" + BuildConfig.APPLICATION_ID));
                             }
                             startActivity(intent);
                             dialog.dismiss();

@@ -9,15 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
-import vn.com.it.truongpham.mystore.activity.ActivityQRCodeScanner;
+import vn.com.it.truongpham.mystore.activity.ActivityThuChi;
 import vn.com.it.truongpham.mystore.activity.BanHangActivity;
 import vn.com.it.truongpham.mystore.activity.BanHangQRCodeActivity;
 import vn.com.it.truongpham.mystore.activity.LoaiSanPhamActivity;
 import vn.com.it.truongpham.mystore.R;
 import vn.com.it.truongpham.mystore.activity.SanPhamActivity;
-import vn.com.it.truongpham.mystore.activity.ThuChiActivity;
+import vn.com.it.truongpham.mystore.activity.ThuChiActivityTest;
 
 public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
     Context context;
@@ -62,15 +60,15 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
                         break;
 
                     case 5:
-                        intent = new Intent(context, ThuChiActivity.class);
+                        intent = new Intent(context, ActivityThuChi.class);
                         break;
 
                     case 6:
-                        intent = new Intent(context, ThuChiActivity.class);
+                        intent = new Intent(context, ThuChiActivityTest.class);
                         break;
 
                     case 7:
-                        intent = new Intent(context, ThuChiActivity.class);
+                        intent = new Intent(context, ThuChiActivityTest.class);
                         break;
 
                 }

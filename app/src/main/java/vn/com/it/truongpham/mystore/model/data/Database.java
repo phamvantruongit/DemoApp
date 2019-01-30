@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 import vn.com.it.truongpham.mystore.model.LoaiSP;
+import vn.com.it.truongpham.mystore.model.MuaVao;
 import vn.com.it.truongpham.mystore.model.SanPham;
 
 public class Database extends SQLiteOpenHelper {
@@ -39,11 +40,11 @@ public class Database extends SQLiteOpenHelper {
 
     private static final String KEY_PRICE_OUT = "price_out";
 
-    private static final String KEY_SIZE="size";
+    private static final String KEY_SIZE = "size";
 
-    private static final String KEY_DATE="date";
+    private static final String KEY_DATE = "date";
 
-    private static final String KEY_STATUS="status";
+    private static final String KEY_STATUS = "status";
 
 
     private static final String CREATE_TABLE_TYPE_PRODUCT = "CREATE TABLE "
@@ -82,57 +83,57 @@ public class Database extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, sanPham.getName());
         values.put(KEY_INFO, sanPham.getThongin());
-        values.put(KEY_SIZE,sanPham.getSize());
+        values.put(KEY_SIZE, sanPham.getSize());
         values.put(KEY_NUMBER, sanPham.getSoluong());
         values.put(KEY_PRICE_IN, sanPham.getGianhap());
         values.put(KEY_PRICE_OUT, sanPham.getGiaban());
 
-        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
-        Date nowtime=new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date nowtime = new Date();
         String strnowtime = sdf.format(nowtime);
 
-        values.put(KEY_DATE,strnowtime);
-        values.put(KEY_TYPE_ID,sanPham.getId_loaisp());
-        values.put(KEY_STATUS,"0");
+        values.put(KEY_DATE, strnowtime);
+        values.put(KEY_TYPE_ID, sanPham.getId_loaisp());
+        values.put(KEY_STATUS, "0");
 
-        db.insert(TABLE_PRODUCT,null,values);
+        db.insert(TABLE_PRODUCT, null, values);
         db.close();
     }
 
-    public void editSanPham(SanPham sanPham, int id){
+    public void editSanPham(SanPham sanPham, int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, sanPham.getName());
         values.put(KEY_INFO, sanPham.getThongin());
-        values.put(KEY_SIZE,sanPham.getSize());
+        values.put(KEY_SIZE, sanPham.getSize());
         values.put(KEY_NUMBER, sanPham.getSoluong());
         values.put(KEY_PRICE_IN, sanPham.getGianhap());
         values.put(KEY_PRICE_OUT, sanPham.getGiaban());
 
-        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
-        Date nowtime=new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Date nowtime = new Date();
         String strnowtime = sdf.format(nowtime);
 
-        values.put(KEY_DATE,strnowtime);
-        values.put(KEY_TYPE_ID,sanPham.getId_loaisp());
+        values.put(KEY_DATE, strnowtime);
+        values.put(KEY_TYPE_ID, sanPham.getId_loaisp());
 
-        db.update(TABLE_PRODUCT,values,KEY_ID + " = ?" ,new String[]{String.valueOf(id)});
+        db.update(TABLE_PRODUCT, values, KEY_ID + " = ?", new String[]{String.valueOf(id)});
         db.close();
     }
 
 
-    public void xoaSanPham(int id){
+    public void xoaSanPham(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_PRODUCT,KEY_ID + " = ?" ,new String[]{String.valueOf(id)});
+        db.delete(TABLE_PRODUCT, KEY_ID + " = ?", new String[]{String.valueOf(id)});
         db.close();
     }
 
-    public List<SanPham> getListSanPham(int id){
+    public List<SanPham> getListSanPham(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        List<SanPham> list=new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_PRODUCT +" WHERE " + KEY_TYPE_ID + " = " +id , null);
-        while (cursor.moveToNext()){
-            SanPham sanPham=new SanPham();
+        List<SanPham> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_PRODUCT + " WHERE " + KEY_TYPE_ID + " = " + id, null);
+        while (cursor.moveToNext()) {
+            SanPham sanPham = new SanPham();
             sanPham.setId(cursor.getInt(0));
             sanPham.setName(cursor.getString(1));
             sanPham.setThongin(cursor.getString(2));
@@ -147,33 +148,13 @@ public class Database extends SQLiteOpenHelper {
 
     }
 
-    public List<SanPham> searchListSanPham(String name){
-        //SELECT * FROM 'tb_product' where name like  '%sam sung%';
+
+    public int getID() {
         SQLiteDatabase db = this.getWritableDatabase();
-        List<SanPham> list=new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_PRODUCT + " WHERE  " + KEY_NAME  + " LIKE  '%"+name+"%'" , null);
-        while (cursor.moveToNext()){
-            SanPham sanPham=new SanPham();
-            sanPham.setId(cursor.getInt(0));
-            sanPham.setName(cursor.getString(1));
-            sanPham.setThongin(cursor.getString(2));
-            sanPham.setSize(cursor.getString(3));
-            sanPham.setSoluong(cursor.getInt(4));
-            sanPham.setGianhap(cursor.getString(5));
-            sanPham.setGiaban(cursor.getString(6));
-            sanPham.setStatus(cursor.getString(9));
-            list.add(sanPham);
-        }
-        return list;
-
-    }
-
-    public  int getID(){
-        SQLiteDatabase db=this.getWritableDatabase();
-        int id=0;
-        Cursor cursor=db.rawQuery("SELECT * FROM " + TABLE_PRODUCT + " order by id desc limit 1 ",null);
-        while (cursor.moveToNext()){
-            id=cursor.getInt(0);
+        int id = 0;
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_PRODUCT + " order by id desc limit 1 ", null);
+        while (cursor.moveToNext()) {
+            id = cursor.getInt(0);
         }
         return id;
     }
@@ -189,7 +170,7 @@ public class Database extends SQLiteOpenHelper {
     public List<LoaiSP> getListLoaiSP() {
         SQLiteDatabase db = this.getWritableDatabase();
         List<LoaiSP> list = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_TYPE_PRODUCT , null);
+        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_TYPE_PRODUCT, null);
         while (cursor.moveToNext()) {
             LoaiSP loaiSP = new LoaiSP();
             loaiSP.setId(cursor.getInt(0));
@@ -199,35 +180,70 @@ public class Database extends SQLiteOpenHelper {
         return list;
     }
 
-    public String getNameLoaiSanPham(int id){
+    public String getNameLoaiSanPham(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        String name="";
-        Cursor cursor = db.rawQuery(" SELECT *  FROM " + TABLE_TYPE_PRODUCT + " WHERE " + KEY_ID + " = "+ id, null);
+        String name = "";
+        Cursor cursor = db.rawQuery(" SELECT *  FROM " + TABLE_TYPE_PRODUCT + " WHERE " + KEY_ID + " = " + id, null);
         while (cursor.moveToNext()) {
-          name=cursor.getString(1);
+            name = cursor.getString(1);
         }
         return name;
     }
 
-    public void update(int id){
-        SQLiteDatabase db=this.getWritableDatabase();
-        Cursor cursor=db.rawQuery("update tb_product set number=number-1 where id = "+ id,null);
+    public List<SanPham> searchListSanPham(String name) {
+        //SELECT * FROM 'tb_product' where name like  '%sam sung%';
+        SQLiteDatabase db = this.getWritableDatabase();
+        List<SanPham> list = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT *  FROM " + TABLE_PRODUCT + " WHERE  " + KEY_NAME + " LIKE  '%" + name + "%'", null);
+        while (cursor.moveToNext()) {
+            SanPham sanPham = new SanPham();
+            sanPham.setId(cursor.getInt(0));
+            sanPham.setName(cursor.getString(1));
+            sanPham.setThongin(cursor.getString(2));
+            sanPham.setSize(cursor.getString(3));
+            sanPham.setSoluong(cursor.getInt(4));
+            sanPham.setGianhap(cursor.getString(5));
+            sanPham.setGiaban(cursor.getString(6));
+            sanPham.setStatus(cursor.getString(9));
+            list.add(sanPham);
+        }
+        return list;
+
+    }
+
+    public MuaVao getMuaVao(int id, String from, String to) {
+        MuaVao muaVao = new MuaVao();
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT SUM( " + KEY_NUMBER + ") , " + " SUM ( " + KEY_PRICE_IN + ") FROM " + TABLE_PRODUCT + " WHERE " + KEY_TYPE_ID + " = " + id + " AND " + KEY_DATE + " BETWEEN '" + from + "' AND '" + to + "'";
+        Cursor cursor = db.rawQuery(query, null);
+        while (cursor.moveToNext()) {
+            muaVao.soluong = cursor.getInt(0);
+            muaVao.price = cursor.getString(1);
+        }
+
+        return muaVao;
+    }
+
+    public void update(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery("update tb_product set number=number-1 where id = " + id, null);
         cursor.moveToNext();
     }
 
-    public void updateStatus(int id ,String status){
-        SQLiteDatabase db=this.getWritableDatabase();
-        ContentValues values=new ContentValues();
-        values.put(KEY_STATUS,status);
-        db.update(TABLE_PRODUCT,values,KEY_ID + " = ?" ,new String[]{String.valueOf(id)});
+    public void updateStatus(int id, String status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_STATUS, status);
+        db.update(TABLE_PRODUCT, values, KEY_ID + " = ?", new String[]{String.valueOf(id)});
         db.close();
     }
 
-    public void updateStatus(){
-        SQLiteDatabase db=this.getWritableDatabase();
-        ContentValues values=new ContentValues();
-        values.put(KEY_STATUS,"0");
-        db.update(TABLE_PRODUCT,values,null ,null);
+    public void updateStatus() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_STATUS, "0");
+        db.update(TABLE_PRODUCT, values, null, null);
         db.close();
     }
 

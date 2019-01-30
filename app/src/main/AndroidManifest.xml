@@ -37,7 +37,7 @@
 
         <activity android:name=".activity.BanHangActivity" />
         <activity android:name=".activity.DSMuaSanPhamActivity" />
-        <activity android:name=".activity.ThuChiActivity"></activity>
+        <activity android:name=".activity.ThuChiActivityTest" />
 
         <service android:name=".fcm.MyFirebaseInstanceIDService">
             <intent-filter>
@@ -50,6 +50,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".activity.ActivityThuChi"></activity>
     </application>
 
 </manifest>

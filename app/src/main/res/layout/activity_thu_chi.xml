@@ -1,67 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
-    tools:context=".activity.ThuChiActivity">
+    tools:context=".activity.ActivityThuChi">
+
     <RelativeLayout
         android:id="@+id/rl"
         android:paddingLeft="7dp"
         android:paddingRight="10dp"
-        android:paddingTop="7dp"
+        android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
+            android:layout_centerVertical="true"
+            android:onClick="OnBackPress"
             android:id="@+id/iv_back"
             android:src="@drawable/btn_back"
             android:layout_width="20dp"
             android:layout_height="25dp" />
-        <ImageView
-            android:id="@+id/iv_add"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/ic_add"
-            android:layout_width="25dp"
-            android:layout_height="25dp" />
     </RelativeLayout>
-    <RadioGroup
-        android:id="@+id/radio"
+    <org.angmarch.views.NiceSpinner
+        android:layout_below="@id/rl"
+        android:layout_toRightOf="@id/tv_loaisp"
+        android:id="@+id/nice_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        />
+    <View
+        android:layout_below="@id/nice_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+    <TextView
+        android:layout_marginLeft="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/rl"
-        android:gravity="center"
-        android:orientation="horizontal"
+        android:padding="7dp"
+        android:layout_below="@id/nice_spinner"
+        android:id="@+id/tvFrom"
+        android:text="Tu ngay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        android:padding="7dp"
+        android:background="@drawable/boder_item_top"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="13sp"
+        android:id="@+id/edFrom"
+        android:layout_toRightOf="@id/tvFrom"
+        android:layout_below="@id/nice_spinner"
+        android:text="123"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/edTo"
+        android:textColor="@color/black"
+        android:textStyle="italic"
+        android:padding="7dp"
+        android:background="@drawable/boder_item_top"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:textSize="13sp"
+        android:layout_toRightOf="@id/edFrom"
+        android:layout_below="@id/nice_spinner"
+        android:text="123"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical"
+        android:layout_below="@id/edFrom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <RadioButton
-            android:textColor="@color/white"
-            android:textStyle="bold"
+        <LinearLayout
+            android:padding="5dp"
             android:background="@color/colorPrimary"
-            android:padding="10dp"
-            android:gravity="center"
-            android:button="@null"
-            android:text="Thu"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content" />
-        <RadioButton
-            android:layout_marginLeft="5dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:background="@color/colorPrimary"
-            android:padding="10dp"
-            android:gravity="center"
-            android:button="@null"
-            android:text="Chi"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content" />
-    </RadioGroup>
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="center"
+                android:text="Noi dung"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:gravity="center"
+                android:text="So luong"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:gravity="center"
+                android:text="Thanh tien"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:padding="8dp"
+                android:background="@drawable/boder_item_top"
+                android:gravity="center"
+                android:text="Mua vao"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvSLMuaVao"
+                android:padding="8dp"
+                android:background="@drawable/boder_item_top"
+                android:gravity="center"
+                android:text="1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvThanhTienMuaVao"
+                android:padding="8dp"
+                android:background="@drawable/boder_item_top"
+                android:gravity="center"
+                android:text="100000"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:layout_marginTop="95dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radio"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:padding="8dp"
+                android:background="@drawable/boder_item_top"
+                android:gravity="center"
+                android:text="Ban ra "
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvSLBanRa"
+                android:padding="8dp"
+                android:background="@drawable/boder_item_top"
+                android:gravity="center"
+                android:text="1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvThanhTienBanRa"
+                android:padding="8dp"
+                android:background="@drawable/boder_item_top"
+                android:gravity="center"
+                android:text="100000"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:padding="8dp"
+                android:background="@drawable/boder_item_top"
+                android:gravity="center"
+                android:text="Can doi"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvSLCanDoi"
+                android:padding="8dp"
+                android:background="@drawable/boder_item_top"
+                android:gravity="center"
+                android:text="1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tvThanhTienCanDoi"
+                android:padding="8dp"
+                android:background="@drawable/boder_item_top"
+                android:gravity="center"
+                android:text="100000"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
