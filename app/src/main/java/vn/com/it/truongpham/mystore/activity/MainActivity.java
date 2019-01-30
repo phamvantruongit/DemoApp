@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,12 +19,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,11 +33,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
+
 import io.fabric.sdk.android.Fabric;
 import vn.com.it.truongpham.mystore.BuildConfig;
 import vn.com.it.truongpham.mystore.R;
 import vn.com.it.truongpham.mystore.adapter.AdapterTop;
-import vn.com.it.truongpham.mystore.model.data.Database;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -92,6 +93,25 @@ public class MainActivity extends AppCompatActivity
         rv_top.setAdapter(adapterTop);
 
 
+
+
+    }
+
+
+    public static String AddParams(HashMap<String, String> params) throws UnsupportedEncodingException{
+        StringBuilder result = new StringBuilder();
+        boolean first = true;
+        for(Map.Entry<String, String> entry : params.entrySet()){
+            if (first)
+                first = false;
+            else
+                result.append("&");
+
+            result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+            result.append("=");
+            result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+        }
+        return result.toString();
     }
 
     @Override

@@ -17,6 +17,7 @@ import vn.com.it.truongpham.mystore.activity.BanHangQRCodeActivity;
 import vn.com.it.truongpham.mystore.activity.LoaiSanPhamActivity;
 import vn.com.it.truongpham.mystore.R;
 import vn.com.it.truongpham.mystore.activity.SanPhamActivity;
+import vn.com.it.truongpham.mystore.activity.ThuChiActivity;
 
 public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
     Context context;
@@ -58,6 +59,18 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
                         break;
                     case 4:
                         intent = new Intent(context, BanHangActivity.class);
+                        break;
+
+                    case 5:
+                        intent = new Intent(context, ThuChiActivity.class);
+                        break;
+
+                    case 6:
+                        intent = new Intent(context, ThuChiActivity.class);
+                        break;
+
+                    case 7:
+                        intent = new Intent(context, ThuChiActivity.class);
                         break;
 
                 }
