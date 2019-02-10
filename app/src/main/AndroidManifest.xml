@@ -50,7 +50,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activity.ActivityThuChi"></activity>
+        <activity android:name=".activity.ActivityThuChi" />
+        <activity android:name=".activity.ActivityKho"></activity>
     </application>
 
 </manifest>

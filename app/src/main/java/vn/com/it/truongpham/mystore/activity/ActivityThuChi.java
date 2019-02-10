@@ -65,7 +65,7 @@ public class ActivityThuChi extends AppCompatActivity implements View.OnClickLis
         tvFrom.setText(sdf.format(myCalendar.getTime()));
         tvTo.setText(sdf.format(myCalendar.getTime()));
 
-        From = tvFrom.getText().toString();
+        From = "01/01/2019";
         To = tvTo.getText().toString();
 
 

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "301223465837",
+    "firebase_url": "https://appshopmini-8d1fc.firebaseio.com",
+    "project_id": "appshopmini-8d1fc",
+    "storage_bucket": "appshopmini-8d1fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:301223465837:android:96d7e24f4b8d2a5c",
+        "android_client_info": {
+          "package_name": "vn.com.it.truongpham.mystore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "301223465837-c8au2oo5sn73njioaorhvscbk6g7a4fh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9Yij9HHycJVy2HI_rEWeW41BkzkBLCWw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

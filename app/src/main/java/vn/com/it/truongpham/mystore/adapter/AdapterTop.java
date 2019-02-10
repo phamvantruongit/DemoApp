@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import vn.com.it.truongpham.mystore.activity.ActivityKho;
 import vn.com.it.truongpham.mystore.activity.ActivityThuChi;
 import vn.com.it.truongpham.mystore.activity.BanHangActivity;
 import vn.com.it.truongpham.mystore.activity.BanHangQRCodeActivity;
@@ -64,7 +65,7 @@ public class AdapterTop extends RecyclerView.Adapter<AdapterTop.ViewHolder> {
                         break;
 
                     case 6:
-                        intent = new Intent(context, ThuChiActivityTest.class);
+                        intent = new Intent(context, ActivityKho.class);
                         break;
 
                     case 7:

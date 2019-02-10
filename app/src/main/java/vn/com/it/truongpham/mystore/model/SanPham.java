@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class SanPham  implements Parcelable {
-    private int id ,id_loaisp,soluong;
+    private int id ,id_loaisp,soluong,soluongban;
     private String name;
     private String thongin;
     private String size;
@@ -39,6 +39,7 @@ public class SanPham  implements Parcelable {
         gianhap = in.readString();
         giaban = in.readString();
         ngaynhap = in.readString();
+        soluongban=in.readInt();
     }
 
     public static final Creator<SanPham> CREATOR = new Creator<SanPham>() {
@@ -127,6 +128,14 @@ public class SanPham  implements Parcelable {
         return giaban;
     }
 
+    public int getSoluongban() {
+        return soluongban;
+    }
+
+    public void setSoluongban(int soluongban) {
+        this.soluongban = soluongban;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -135,6 +144,7 @@ public class SanPham  implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
+        dest.writeInt(soluongban);
         dest.writeInt(id_loaisp);
         dest.writeInt(soluong);
         dest.writeString(name);

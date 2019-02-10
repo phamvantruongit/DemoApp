@@ -46,6 +46,8 @@ public class Database extends SQLiteOpenHelper {
 
     private static final String KEY_STATUS = "status";
 
+    private static final String KEY_NUMBER_PRICE = "number_price";
+
 
     private static final String CREATE_TABLE_TYPE_PRODUCT = "CREATE TABLE "
             + TABLE_TYPE_PRODUCT + "(" + KEY_ID
@@ -56,7 +58,8 @@ public class Database extends SQLiteOpenHelper {
             + TABLE_PRODUCT + "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , "
             + KEY_NAME + " TEXT , " + KEY_INFO + " TEXT , " + KEY_SIZE + "  TEXT ,"
             + KEY_NUMBER + " INTEGER ," + KEY_PRICE_IN + " TEXT ,"
-            + KEY_PRICE_OUT + " TEXT," + KEY_TYPE_ID + " INTEGER , " + KEY_DATE + " TEXT ," + KEY_STATUS + " TEXT );";
+            + KEY_PRICE_OUT + " TEXT," + KEY_TYPE_ID + " INTEGER , " + KEY_DATE + " TEXT ," + KEY_STATUS + " TEXT ,"
+            + KEY_NUMBER_PRICE + " INTEGER );";
 
 
     public Database(Context context) {
@@ -95,6 +98,7 @@ public class Database extends SQLiteOpenHelper {
         values.put(KEY_DATE, strnowtime);
         values.put(KEY_TYPE_ID, sanPham.getId_loaisp());
         values.put(KEY_STATUS, "0");
+        values.put(KEY_NUMBER_PRICE,0);
 
         db.insert(TABLE_PRODUCT, null, values);
         db.close();
